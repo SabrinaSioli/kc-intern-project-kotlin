@@ -1,2 +1,2 @@
 # TC_InternshipProject
-Result of the targeted study of the internship.
+Result of the targeted study
