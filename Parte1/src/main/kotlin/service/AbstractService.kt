@@ -21,10 +21,10 @@ abstract class AbstractService {
 		var op = -1
 		print("Project's name: ")
 		var name: String = readLine()!!.toString()
+		var id = contIdProject++
 
-		var project: Project = Project(name)
+		var project: Project = Project(id, name)
 
-		project.id = contIdProject++
 		user.projects.add(project);
 
 		println("""
@@ -45,17 +45,41 @@ abstract class AbstractService {
 
 
 	fun deleteProject(user: User) {
-		user.projects.forEach { project ->
-			println{"""
+		var continueDelete = true
+		while(continueDelete) {
+			if (user.projects.isEmpty()) {
+				println("None")
+			}
+			user.projects.forEach { project ->
+				println{"""
 				id: ${project.id} name: ${project.name}
 			""".trimIndent()}
-		}
-		println("")
-		println("Project's Id: ")
-		var projectId: Int = readLine()!!.toInt()
+			}
+			println("")
+			print("Project's Id: ")
+			var projectId: Int = readLine()!!.toInt()
 
-		var project: Project? = user.projects.find { project -> project.id == projectId }
-		user.projects.remove(project)
+			var project: Project? = user.projects.find { project -> project.id == projectId }
+			if (project != null){
+				user.projects.remove(project)
+				println("""
+				Do you want delete another project?
+				0 - yes
+				1 - No
+			""".trimIndent())
+				var op = readLine()!!.toInt()
+				if (op == 1) continueDelete = false
+			} else {
+				println("Id not found.\n")
+				println("""
+					Do you want:
+					0 - try again
+					1 - return
+				""".trimIndent())
+				var op = readLine()!!.toInt()
+				if (op == 1) continueDelete = false
+			}
+		}
 
 
 	}

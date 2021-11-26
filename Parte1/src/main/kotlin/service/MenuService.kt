@@ -18,7 +18,7 @@ class MenuService {
         try {
             op = readLine()!!.toInt();
 
-            while (op != 1 && op != 2 && op != 3) op = readLine()!!.toInt();
+            while (op != 0 && op != 1 && op != 2) op = readLine()!!.toInt();
 
         } catch (ex : NumberFormatException) {
             println("Error: you didn't enter an integer")
@@ -78,11 +78,10 @@ class MenuService {
         var password: Int
         var stop : Int = 0
         while (stop == 0){
-            println()
             print("""
-                      MANAGER
-            ____________________________
-			Email:
+                           MANAGER
+                ____________________________
+                Email:
 		    """.trimIndent())
 
             email = readLine()!!.toString()
@@ -97,7 +96,7 @@ class MenuService {
                 stop = 1
                 return managerFound
             } else {
-                println("Password or email wrong!")
+                println("\nPassword or email wrong!\n")
                 println("""
                     Do you want:
                     0 - Try again
@@ -121,14 +120,14 @@ class MenuService {
              print("""                    
                        DEVELOPER            
              ____________________________ 
-         	Email:                       
+             Email: 
              """.trimIndent())
 
              email = readLine()!!.toString()
 
-             print("""                                                                                               
-             Senha:                                                                                                  
-             """.trimIndent())
+             print("""
+                 Senha: 
+                 """.trimIndent())
              password = readLine()!!.toInt()
 
              val devFound: DevUser? = devs.find { it.email == email && it.password == password }

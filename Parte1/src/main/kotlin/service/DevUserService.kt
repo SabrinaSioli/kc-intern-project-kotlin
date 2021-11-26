@@ -19,7 +19,7 @@ class DevUserService : AbstractService() {
         var email = ""
         var password: Int = 1234 // ask about this
 
-        println("Create - Manager")
+        println("Create - Developer")
         print("Name: ")
         name = readLine()!!.toString()
 

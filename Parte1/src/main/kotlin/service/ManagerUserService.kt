@@ -22,7 +22,7 @@ class ManagerUserService : AbstractService() {
 		var password: Int = 1234 // ask about this
 
 
-		println("Create - Developer")
+		println("Create - Manager")
 		print("Name: ")
 		name = readLine()!!.toString()
 
@@ -153,29 +153,44 @@ class ManagerUserService : AbstractService() {
 	}
 
 	fun changeDevsCredits(manager: ManagerUser) {
-		println("Devs")
-		for (dev in manager.devs) {
-			println("""
+		var continueDelete = true
+		while(continueDelete) {
+			println("Devs")
+			for (dev in manager.devs) {
+				println("""
 				id: ${dev.id} - name: ${dev.name} - creditos: ${dev.credits}
 			""".trimIndent())
-		}
+			}
 
-		print("Id of the Dev: ")
-		var id: Int = readLine()!!.toInt()
+			print("Id of the Dev: ")
+			var id: Int = readLine()!!.toInt()
+
 			var foundDev = manager.devs.find { it.id == id }
+
 			if (foundDev != null) {
 				print("new value of credits: ")
 				var credits = readLine()!!.toInt()
 				foundDev.credits = credits
+				println("Changed with success!")
+			} else {
+				println("Id not found!")
+				println("""
+					You want:
+					0 - try again
+					1 - return
+				""".trimIndent())
+				var op = readLine()!!.toInt()
+				if(op == 1) continueDelete = false
 			}
-		println("Changed with success!")
+		}
 	}
 
 	fun deleteDev(manager: ManagerUser, devs: ArrayList<DevUser>) {
 		var notStop = true
 		while(notStop) {
 			println("Devs")
-			if (devs.isEmpty()) { println("None") }
+			if (devs.isEmpty()) println("None")
+
 			for (dev in manager.devs) {
 				println("""
 				${dev.id} - ${dev.name} - ${dev.credits}
@@ -190,9 +205,22 @@ class ManagerUserService : AbstractService() {
 				if (isDevId) {
 					manager.devs.removeIf { dev -> dev.id == devId }
 					devs.removeIf { dev -> dev.id == devId }
-					println("Successfully removed!")
+					println("Successfully removed!\n")
+					println("""
+					Do want delete another developer?
+					0 - yes
+					1 - No
+				""".trimIndent())
+					var op = readLine()!!.toInt()
+					if (op == 0) {
+						isDevId = true
+					}
+					if (op == 1) {
+						isDevId = true
+						notStop = false
+					}
 				} else {
-					println("Id is invalid.\n")
+					println("Id not found.\n")
 					println("""
 					What do you want to do?
 					0 - try again

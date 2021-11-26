@@ -3,14 +3,15 @@ import model.DevUser
 import service.MenuService
 import service.DevUserService
 import service.ManagerUserService
-import kotlin.math.log
 
 // totally securely, it's true this message
 var contIdProject : Int = 0
 var contIdDev : Int = 0
 var contIdManager : Int = 0
 
-//login mangager dont return
+//ask about the dev's creation
+
+//Should I put a condition to reset the contIdDev when there are zero developers?
 
 fun main() {
 	var managers = ArrayList<ManagerUser>()
@@ -26,22 +27,22 @@ fun main() {
 	var dev: DevUser = DevUser()
 
 	//ask about the better way to implements this part
-	var op = -1
-	var subOp = -1
+	var opMenu = -1
+	var opSubMenu = -1
 	//println("      *** KNOW CODE *** \n")
 
-	while(op != 2) { //return to rootMain while the user didn't type 2
-
+	while(opMenu != 2) { //return to rootMain while the user didn't type 2 (option to exit)
+		//Just for test
 		println("manager")
 		managers.forEach { manager -> manager.seeProfile() }
 		println("\nDevelopers")
 		devs.forEach { dev -> dev.seeProfile() }
 
-		op = menuService.rootMenu()
-		when(op) {
+		opMenu = menuService.rootMenu()
+		when(opMenu) {
 			0 -> { //Log In
-				subOp = menuService.logInMenu()
-				when(subOp) {
+				opSubMenu = menuService.logInMenu()
+				when(opSubMenu) {
 					0 -> { //Manager
 						managerLogged = menuService.logInManagerMenu(managers)
 						if (managerLogged != null) {
@@ -56,9 +57,9 @@ fun main() {
 					}
 				}
 			}
-			1 -> { //Sign In
-				subOp = menuService.signUpMenu()
-				when(subOp) {
+			1 -> { //Sign Up
+				opSubMenu = menuService.signUpMenu()
+				when(opSubMenu) {
 					0 -> { //Manager
 						managerLogged = managerService.createUser(managers)
 						if(managerLogged != null) {
