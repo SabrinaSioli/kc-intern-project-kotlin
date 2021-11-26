@@ -24,6 +24,7 @@ class DevUser : User {
 			Email: $email
 			Password: $password
 			Credits: $credits
+			manager: ${manager}
 			""".trimIndent())
 		println("Projects: ")
 		for (i in 0..projects.size - 1) {

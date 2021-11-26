@@ -5,10 +5,7 @@ import contIdManager
 import model.ManagerUser
 
 import model.DevUser
-import model.Project
-import model.User
 import java.lang.NumberFormatException
-import javax.lang.model.type.NullType
 
 class ManagerUserService : AbstractService() {
 

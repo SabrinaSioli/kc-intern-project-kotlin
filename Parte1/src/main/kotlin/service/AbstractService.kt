@@ -14,8 +14,57 @@ abstract class AbstractService {
 
 	}
 	*/
+	/*
+	fun ManagerUser.seeProfile() {
+		println("""
+			 - Profile -
+			Id: ${this.id}
+			Name: ${this.name}
+			Email: ${this.email}
+			Password: ${this.password}
+			Credits: ${this.credits}
+			""".trimIndent())
+		println("Projects: ")
+		this.projects.forEach { project ->
+			println("""
+				id: ${project.id} - name: ${project.name}
+			""".trimIndent())
+		}
+		println("Devs: ")
+		this.devs.forEach { dev ->
+			println("""
+				id: ${dev.id} - name: ${dev.name} - email: ${dev.email}
+			""".trimIndent())
+		}
 
+		/*
+		for (i in 0..manager.projects.size - 1) {
+			var project: Project = manager.projects.get(i)
+			println("""
+				${i+1} - id: ${project.id} , name:${project.name}
+			""".trimIndent())
+		}
+		println()
+		*/
+	}
 
+	fun DevUser.seeProfile() {
+		println("""
+			 - Profile -
+			Id: ${this.id}
+			Name: ${this.name}
+			Email: ${this.email}
+			Password: ${this.password}
+			Credits: ${this.credits}
+			""".trimIndent())
+		println("Projects: ")
+		this.projects.forEach { project ->
+			println("""
+				id: ${project.id} - name: ${project.name}
+			""".trimIndent())
+		}
+	}
+	*/
 
 	fun createProject(user: User) {
 		var op = -1
