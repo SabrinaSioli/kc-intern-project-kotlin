@@ -11,7 +11,7 @@ Result of the targeted study
 - Freemarker (in progress)
 
 ## How to use
-You must have the JDK installed on your computer and an IDE, I recommend using IntelliJ.
+You must have the [JDK](https://www.oracle.com/java/technologies/downloads/) installed on your computer and an IDE, I recommend using [IntelliJ](https://www.jetbrains.com/pt-br/idea/).
 
 You need to clone the project.
 ```sh
