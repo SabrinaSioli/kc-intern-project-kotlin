@@ -3,16 +3,6 @@ import model.DevUser
 import service.MenuService
 import service.DevUserService
 import service.ManagerUserService
-import service.AbstractService
-
-// totally securely, it's true this message
-var contIdProject : Int = 0
-var contIdDev : Int = 0
-var contIdManager : Int = 0
-
-//ask about the dev's creation
-
-//Should I put a condition to reset the contIdDev when there are zero developers?
 
 fun main() {
 	var managers = ArrayList<ManagerUser>()
@@ -27,30 +17,27 @@ fun main() {
 
 	var dev: DevUser = DevUser()
 
-	//ask about the better way to implements this part
 	var opMenu = -1
 	var opSubMenu = -1
-	//println("      *** KNOW CODE *** \n")
 
-	while(opMenu != 2) { //return to rootMain while the user didn't type 2 (option to exit)
-		//Just for test
-		println("manager")
-		managers.forEach { manager -> manager.seeProfile() }
-		println("\nDevelopers")
-		devs.forEach { dev -> dev.seeProfile() }
+	//return to rootMain while the user didn't type 2 (option to exit)
+	while(opMenu != 2) {
 
 		opMenu = menuService.rootMenu()
 		when(opMenu) {
-			0 -> { //Log In
+			//Log In
+			0 -> {
 				opSubMenu = menuService.logInMenu()
 				when(opSubMenu) {
-					0 -> { //Manager
+					//Manager
+					0 -> {
 						managerLogged = menuService.logInManagerMenu(managers)
 						if (managerLogged != null) {
 							menuService.managerMenu(managerLogged, devs)
 						}
 					}
-					1 -> { //Dev
+					//Dev
+					1 -> {
 						devLogged = menuService.loginDevMenu(devs)
 						if (devLogged != null) {
 							menuService.devMenu(devLogged, devs)
@@ -58,15 +45,18 @@ fun main() {
 					}
 				}
 			}
-			1 -> { //Sign Up
+			//Sign Up
+			1 -> {
 				opSubMenu = menuService.signUpMenu()
 				when(opSubMenu) {
-					0 -> { //Manager
+					//Manager
+					0 -> {
 						managerLogged = managerService.createUser(managers)
 						if(managerLogged != null) {
 							menuService.managerMenu(managerLogged, devs)
 						}
 					}
+					//Dev
 					1 -> {
 						devLogged = devService.createUser(devs)
 						if (devLogged != null) {
@@ -78,10 +68,6 @@ fun main() {
 			2 -> System.exit(0)
 		}
 	}
-
-
-
-
 }
 
 

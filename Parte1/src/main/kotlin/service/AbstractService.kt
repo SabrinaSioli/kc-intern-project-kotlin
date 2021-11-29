@@ -1,76 +1,22 @@
 package service
 
-import contIdProject
-import main
-import model.DevUser
-import model.ManagerUser
 import model.Project
 import model.User
 
 abstract class AbstractService {
 
-	/*
-	open fun seeProfile(user: User) {
-
-	}
-	*/
-	/*
-	fun ManagerUser.seeProfile() {
-		println("""
-			 - Profile -
-			Id: ${this.id}
-			Name: ${this.name}
-			Email: ${this.email}
-			Password: ${this.password}
-			Credits: ${this.credits}
-			""".trimIndent())
-		println("Projects: ")
-		this.projects.forEach { project ->
-			println("""
-				id: ${project.id} - name: ${project.name}
-			""".trimIndent())
-		}
-		println("Devs: ")
-		this.devs.forEach { dev ->
-			println("""
-				id: ${dev.id} - name: ${dev.name} - email: ${dev.email}
-			""".trimIndent())
-		}
-
-		/*
-		for (i in 0..manager.projects.size - 1) {
-			var project: Project = manager.projects.get(i)
-			println("""
-				${i+1} - id: ${project.id} , name:${project.name}
-			""".trimIndent())
-		}
-		println()
-		*/
-	}
-
-	fun DevUser.seeProfile() {
-		println("""
-			 - Profile -
-			Id: ${this.id}
-			Name: ${this.name}
-			Email: ${this.email}
-			Password: ${this.password}
-			Credits: ${this.credits}
-			""".trimIndent())
-		println("Projects: ")
-		this.projects.forEach { project ->
-			println("""
-				id: ${project.id} - name: ${project.name}
-			""".trimIndent())
-		}
-	}
-	*/
-
 	fun createProject(user: User) {
 		var op = -1
+		var id : Int
+
 		print("Project's name: ")
 		var name: String = readLine()!!.toString()
-		var id = contIdProject++
+
+		if (user.projects.isEmpty()) {
+			id = 0
+		} else {
+			id = user.projects.last().id + 1
+		}
 
 		var project: Project = Project(id, name)
 
@@ -88,51 +34,57 @@ abstract class AbstractService {
 			println("Error! :/")
 		}
 
-		if (op == 1) createProject(user) //ask about this
+		if (op == 1) createProject(user)
 	}
-	//A dont Know if works
 
 
 	fun deleteProject(user: User) {
 		var continueDelete = true
+
 		while(continueDelete) {
+			//Show the projects
 			if (user.projects.isEmpty()) {
 				println("None")
 			}
 			user.projects.forEach { project ->
 				println{"""
 				id: ${project.id} name: ${project.name}
-			""".trimIndent()}
+				""".trimIndent()}
 			}
 			println("")
+
+			//Input the id
 			print("Project's Id: ")
 			var projectId: Int = readLine()!!.toInt()
 
+			//test id
 			var project: Project? = user.projects.find { project -> project.id == projectId }
-			if (project != null){
+
+			if (project != null){ // id exists
 				user.projects.remove(project)
+
 				println("""
 				Do you want delete another project?
 				0 - yes
 				1 - No
-			""".trimIndent())
+				""".trimIndent())
 				var op = readLine()!!.toInt()
+
 				if (op == 1) continueDelete = false
-			} else {
+			} else { //id not exists
 				println("Id not found.\n")
 				println("""
 					Do you want:
 					0 - try again
 					1 - return
 				""".trimIndent())
+
 				var op = readLine()!!.toInt()
+
 				if (op == 1) continueDelete = false
 			}
 		}
 
-
 	}
-
-
 
 }

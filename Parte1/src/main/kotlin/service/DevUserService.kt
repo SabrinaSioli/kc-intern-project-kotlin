@@ -1,11 +1,6 @@
 package service
 
-import contIdDev
-import contIdProject
 import model.DevUser
-import model.ManagerUser
-import model.User
-import model.Project
 import java.lang.NumberFormatException
 
 class DevUserService : AbstractService() {
@@ -23,8 +18,8 @@ class DevUserService : AbstractService() {
         print("Name: ")
         name = readLine()!!.toString()
 
-
-        while (isNotUniq) { //Repeat while the email is not unique
+        //Repeat while the email is not unique
+        while (isNotUniq) {
             print("Email: ")
             email = readLine()!!.toString()
 
@@ -44,17 +39,26 @@ class DevUserService : AbstractService() {
             }
         }
 
-        if (op == 1) { //The user gives up on trying find an unique email
+        //The user gives up on trying find an unique email
+        if (op == 1) {
             print("Password: ")
 
             try {
                 password = readLine()!!.toInt()
-                user.id = contIdDev++
+
+                if (devs.isEmpty()) {
+                    id = 0
+                } else {
+                    id = devs.last().id + 1
+                }
+
+                user.id = id
                 user.name = name
                 user.email = email
                 user.password = password
 
                 devs.add(user)
+
             } catch (e: NumberFormatException) {
                 println("Error! The password must be an integer. :/")
                 return null
@@ -63,18 +67,4 @@ class DevUserService : AbstractService() {
         return user
     }
 
-
-    fun UserServiceMenu(): Int {
-        println("""
-            1 - Add project
-            2 - Delete project
-        """.trimIndent())
-        print("Option: ")
-        var op: Int = readLine()!!.toInt()
-        while (op != 1 && op != 2) {
-            println("Type a valid option")
-            op = readLine()!!.toInt()
-        }
-        return op
-    }
 }
