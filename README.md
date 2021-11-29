@@ -3,7 +3,7 @@ Result of the targeted study
 
 <i> The text below is incomplete, informations will be added later. </i>
 
-##What was used? 
+## What was used? 
 - Kotlin
 - Docker (in progress)
 - Vert.x (in progress)
