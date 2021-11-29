@@ -1,7 +1,7 @@
 # TC_InternshipProject
 Result of the targeted study
 
-<i> The text below is incomplete, information will be added later. </i>
+<i> The text below is incomplete, informations will be added later. </i>
 
 ##What was used? 
 - Kotlin
