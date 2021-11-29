@@ -70,7 +70,6 @@ class MenuService {
         }
 
         return op
-
     }
 
     fun logInManagerMenu (managers: ArrayList<ManagerUser>) : ManagerUser? {
@@ -79,12 +78,12 @@ class MenuService {
         var stop : Int = 0
         while (stop == 0){
             print("""
-                           MANAGER
-                ____________________________
-                Email:
-		    """.trimIndent())
-
+                       MANAGER
+            ____________________________
+            Email:
+            """.trimIndent())
             email = readLine()!!.toString()
+
             print("""
 			Senha:
 		    """.trimIndent())
@@ -103,6 +102,7 @@ class MenuService {
                     1 - Return
                 """.trimIndent())
                 var op = readLine()!!.toInt()
+
                 if (op == 1) stop = 1
             }
         }
@@ -126,8 +126,8 @@ class MenuService {
              email = readLine()!!.toString()
 
              print("""
-                 Senha: 
-                 """.trimIndent())
+             Senha: 
+             """.trimIndent())
              password = readLine()!!.toInt()
 
              val devFound: DevUser? = devs.find { it.email == email && it.password == password }
@@ -143,6 +143,7 @@ class MenuService {
                  1 - Return                                                                                      
              """.trimIndent())
                  var op = readLine()!!.toInt()
+
                  if (op == 1) stop = 1
              }
          }
@@ -153,6 +154,7 @@ class MenuService {
         var devUserService: DevUserService = DevUserService()
         var op: Int = 0;
         var notStop = true
+
         while (notStop) {
             println()
             println("""
@@ -164,6 +166,7 @@ class MenuService {
 			3 - Return
 		    """.trimIndent())
             op = readLine()!!.toInt()
+
             while (op != 0 && op != 1 && op != 2 && op != 3) {
                 println("Type a valid option")
                 op = readLine()!!.toInt()

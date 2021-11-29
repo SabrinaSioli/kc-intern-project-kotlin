@@ -1,9 +1,6 @@
 package service
 
-import contIdDev
-import contIdManager
 import model.ManagerUser
-
 import model.DevUser
 import java.lang.NumberFormatException
 
@@ -23,8 +20,8 @@ class ManagerUserService : AbstractService() {
 		print("Name: ")
 		name = readLine()!!.toString()
 
-
-		while(isNotUniq) { //Repeat while the email is not unique
+		//Repeat while the email is not unique
+		while(isNotUniq) {
 			print("Email: ")
 			email = readLine()!!.toString()
 
@@ -38,23 +35,32 @@ class ManagerUserService : AbstractService() {
 				1 - No
 				""".trimIndent())
 				op = readLine()!!.toInt()
+
 				if (op == 1) isNotUniq = false
 			} else {
 				op = 1
 			}
 		}
 
-		if (op == 1) { //The user gives up on trying find an unique email
+		if (op == 1) {
 			print("Password: ")
 
 			try {
 				password = readLine()!!.toInt()
-				user.id = contIdManager++
+
+				if (managers.isEmpty()) {
+					id = 0
+				} else {
+					id = managers.last().id + 1
+				}
+
+				user.id = id
 				user.name = name
 				user.email = email
 				user.password = password
 
 				managers.add(user)
+
 			} catch (e: NumberFormatException) {
 				println("Error! The password must be an integer. :/")
 				return null
@@ -92,11 +98,12 @@ class ManagerUserService : AbstractService() {
 				if (isNotUniq) {
 					println("This email is already used!")
 					println("""
-				Do you want to try another one?
-				0 - yes
-				1 - No
-				""".trimIndent())
+					Do you want to try another one?
+					0 - yes
+					1 - No
+					""".trimIndent())
 					op = readLine()!!.toInt()
+
 					if (op == 1) isNotUniq = false
 				} else {
 					op = 2
@@ -104,9 +111,14 @@ class ManagerUserService : AbstractService() {
 			}
 
 			if (op == 2) {
-				id = contIdDev++
 
 				var dev = DevUser()
+
+				if (devs.isEmpty()) {
+					id = 0
+				} else {
+					id = devs.last().id + 1
+				}
 
 				dev.id = id
 				dev.name = name
@@ -194,14 +206,18 @@ class ManagerUserService : AbstractService() {
 			""".trimIndent())
 			}
 			println("")
+
 			var isDevId = false
-			while(!isDevId) {
+
+			while(!isDevId) { //repeats while id is not an existing developer id
 				print("Id of the Dev: ")
 				var devId: Int = readLine()!!.toInt()
 				isDevId = manager.devs.any { dev -> dev.id == devId }
+
 				if (isDevId) {
 					manager.devs.removeIf { dev -> dev.id == devId }
 					devs.removeIf { dev -> dev.id == devId }
+
 					println("Successfully removed!\n")
 					println("""
 					Do want delete another developer?
@@ -209,6 +225,7 @@ class ManagerUserService : AbstractService() {
 					1 - No
 				""".trimIndent())
 					var op = readLine()!!.toInt()
+
 					if (op == 0) {
 						isDevId = true
 					}
@@ -232,4 +249,5 @@ class ManagerUserService : AbstractService() {
 			}
 		}
 	}
+
 }
