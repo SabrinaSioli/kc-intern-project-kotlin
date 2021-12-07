@@ -1,4 +1,4 @@
-# TC_InternshipProject
+# TC INTERN PROJECT
 Result of the targeted study
 
 <i> The text below is incomplete, informations will be added later. </i>
