@@ -1,41 +1,62 @@
-package tc.intern.project.server
+package tc.intern.project.main
 
 import io.vertx.core.AbstractVerticle
-import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.handler.BodyHandler
+import model.DevUser
+import model.ManagerUser
+import service.DevUserService
+import service.ManagerUserService
+import service.MenuService
+import tc.intern.project.verticle.DevVerticle
 
+
+import java.util.*
 
 class MainVerticle : AbstractVerticle () {
 
-  private val devs: MutableMap<String, JsonObject> = HashMap()
+  val devs: MutableMap<String, JsonObject> = HashMap()
 
   override fun start() {
-    setUpInitialData()
+    /*
+    var managers = ArrayList<ManagerUser>()
+    var devs = ArrayList<DevUser>()
+    */
+
+    //START THE SERVER
     val router = Router.router(vertx)
     router.route().handler(BodyHandler.create())
 
-    router["/devs"].handler { routingContext: RoutingContext ->
-      handleListDevs(
-        routingContext
-      )
-    }
-    vertx.createHttpServer().requestHandler(router).listen(8080)
-  }
+    //SERVICES
+    val devService: DevUserService = DevUserService()
+    val managerService: ManagerUserService = ManagerUserService()
+    val menuService: MenuService = MenuService()
 
-  private fun handleListDevs(routingContext: RoutingContext) {
-    val arr = JsonArray()
-    //fix this
-    devs.forEach { (k: String?, v: JsonObject?) -> arr.add(v) }
-    routingContext.response().putHeader("content-type", "application/json").end(arr.encodePrettily())
+    // USER LOGGED
+    var managerLogged: ManagerUser? = null
+    var devLogged: DevUser? = null
+
+    // VERTICLES
+    val devVerticle: DevVerticle = DevVerticle()
+
+    setUpInitialData()
+
+    // DEV ENDPOINTS
+
+    //GET
+    router.get("/devs").handler { devVerticle.handleListDevs(devs, it) }
+
+    vertx.createHttpServer().requestHandler(router).listen(8080)
   }
 
   private fun setUpInitialData() {
     addDev(JsonObject().put("id", "0").put("name", "Renê").put("manager", "patrick").put("projects", "jsonProjects").put("email", "rene@gmail.com").put("password", 1234))
     addDev(JsonObject().put("id", "1").put("name", "Renê").put("manager", "patrick").put("projects", "jsonProjects").put("email", "rene@gmail.com").put("password", 1234))
     addDev(JsonObject().put("id", "2").put("name", "Renê").put("manager", "patrick").put("projects", "jsonProjects").put("email", "rene@gmail.com").put("password", 1234))
+
+
   }
 
   private fun addDev(dev: JsonObject) {

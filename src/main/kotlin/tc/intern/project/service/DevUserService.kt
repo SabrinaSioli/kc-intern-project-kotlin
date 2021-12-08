@@ -1,6 +1,9 @@
 package service
 
+import io.vertx.core.json.JsonArray
+import io.vertx.core.json.JsonObject
 import model.DevUser
+import model.Project
 import java.lang.NumberFormatException
 
 class DevUserService : AbstractService() {

@@ -3,6 +3,8 @@
 
 ### Eclipse ###
 
+./*.sh
+
 .metadata
 bin/
 tmp/
@@ -103,6 +105,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-buildTool.properties
 fabric.properties
+
+OldMain.kt
 
 ### Intellij+iml Patch ###
 # Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023

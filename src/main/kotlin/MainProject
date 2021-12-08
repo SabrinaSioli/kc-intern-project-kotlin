@@ -5,7 +5,9 @@ import service.DevUserService
 import service.ManagerUserService
 import java.util.*
 
+
 fun main() {
+
     var managers = ArrayList<ManagerUser>()
     var devs = ArrayList<DevUser>()
 
@@ -21,7 +23,14 @@ fun main() {
     var opMenu = -1
     var opSubMenu = -1
 
+    //to test the program
+    val dev1 = DevUser()
+    dev1.name = "dev1"
+    devs.add(dev1)
+
+
     //return to rootMain while the user didn't type 2 (option to exit)
+    /*
     while(opMenu != 2) {
 
         opMenu = menuService.rootMenu()
@@ -69,7 +78,10 @@ fun main() {
             2 -> System.exit(0)
         }
     }
+     */
 }
+
+
 
 
 
