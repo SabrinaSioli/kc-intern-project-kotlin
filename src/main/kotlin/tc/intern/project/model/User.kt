@@ -1,7 +1,7 @@
 package model
 
 open class User {
-	var id: Int = 0
+	var id: Int = -1
 	var name: String = ""
 	var credits: Int = 0
 	var projects: ArrayList<Project> = ArrayList<Project>()

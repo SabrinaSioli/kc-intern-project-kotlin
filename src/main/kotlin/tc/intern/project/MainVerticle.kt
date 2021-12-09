@@ -1,4 +1,4 @@
-package tc.intern.project.main
+package tc.intern.project
 
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject
@@ -41,12 +41,17 @@ class MainVerticle : AbstractVerticle () {
     // VERTICLES
     val devVerticle: DevVerticle = DevVerticle()
 
-    setUpInitialData()
+    //setUpInitialData()
 
     // DEV ENDPOINTS
 
+
     //GET
-    router.get("/devs").handler { devVerticle.handleListDevs(devs, it) }
+    router.get("/login/dev").handler{ devVerticle.returnDevUser(devLogged, it) }
+    router.get("/login/dev/devs").handler { devVerticle.handleListDevs( devs, it) }
+
+    //POST
+
 
     vertx.createHttpServer().requestHandler(router).listen(8080)
   }
