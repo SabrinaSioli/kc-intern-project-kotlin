@@ -3,7 +3,6 @@ package tc.intern.project
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.Router
-import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.handler.BodyHandler
 import model.DevUser
 import model.ManagerUser
@@ -11,13 +10,16 @@ import service.DevUserService
 import service.ManagerUserService
 import service.MenuService
 import tc.intern.project.verticle.DevVerticle
+import tc.intern.project.verticle.ManagerVerticle
 
 
 import java.util.*
+import kotlin.collections.HashMap
 
 class MainVerticle : AbstractVerticle () {
 
   val devs: MutableMap<String, JsonObject> = HashMap()
+  val managers: MutableMap<String, JsonObject> = HashMap()
 
   override fun start() {
     /*
@@ -40,14 +42,19 @@ class MainVerticle : AbstractVerticle () {
 
     // VERTICLES
     val devVerticle: DevVerticle = DevVerticle()
+    val managerVerticle: ManagerVerticle = ManagerVerticle()
 
     //setUpInitialData()
 
-    // DEV ENDPOINTS
+    /** MANAGER ENDPOINTS */
+    router.get("/login/manager").handler { managerVerticle.returnManagerLogged(managerLogged, it)}
+    router.get("/login/manager/managers").handler{ managerVerticle.handleListManagers(managers, it) }
+
+    /** DEV ENDPOINTS */
 
 
     //GET
-    router.get("/login/dev").handler{ devVerticle.returnDevUser(devLogged, it) }
+    router.get("/login/dev").handler{ devVerticle.returnDevLogged(devLogged, it) }
     router.get("/login/dev/devs").handler { devVerticle.handleListDevs( devs, it) }
 
     //POST
