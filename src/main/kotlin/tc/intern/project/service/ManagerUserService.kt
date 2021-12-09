@@ -10,10 +10,10 @@ class ManagerUserService : AbstractService() {
 		var user = ManagerUser()
 		var isNotUniq = true
 		var op = 0
-		var id: Int
+		var id: String = "1"
 		var name: String = ""
 		var email = ""
-		var password: Int = 1234 // ask about this
+		var password: String = "1234" // ask about this
 
 
 		println("Create - Manager")
@@ -41,7 +41,7 @@ class ManagerUserService : AbstractService() {
 				op = 1
 			}
 		}
-
+		/*
 		if (op == 1) {
 			print("Password: ")
 
@@ -66,6 +66,15 @@ class ManagerUserService : AbstractService() {
 				return null
 			}
 		}
+		 */
+		id = "2"
+		user.id = id
+		user.name = name
+		user.email = email
+		user.password = password
+
+		managers.add(user)
+
 		return user
 	}
 
@@ -74,16 +83,16 @@ class ManagerUserService : AbstractService() {
 
 		while (CreateDev == 1) {
 			println("Create - Developer")
-			var id: Int
+			var id: String = "1"
 			var name: String
 			var email: String = ""
-			var credits: Int
+			var credits: String = "0"
 
 			print("Name: ")
 			name = readLine()!!.toString()
 
 			print("Credits: ")
-			credits = readLine()!!.toInt()
+			credits = readLine()!!
 			credits = credits
 
 			var isNotUniq = true
@@ -109,7 +118,7 @@ class ManagerUserService : AbstractService() {
 					op = 2
 				}
 			}
-
+			/*
 			if (op == 2) {
 
 				var dev = DevUser()
@@ -133,6 +142,19 @@ class ManagerUserService : AbstractService() {
 				dev.seeProfile()
 
 			}
+			 */
+			var dev = DevUser()
+			dev.id = id
+			dev.name = name
+			dev.email = email
+			dev.credits = credits
+			dev.manager = manager
+
+			manager.devs.add(dev)
+			devs.add(dev)
+
+			println("\nDevelop successfully created!")
+			dev.seeProfile()
 
 			println("""
 				Create another Developer?
@@ -144,7 +166,8 @@ class ManagerUserService : AbstractService() {
 	}
 
 	fun changeMyCredits(manager: ManagerUser) {
-		var credit : Int = manager.credits
+		var credit : String = manager.credits
+		/*
 		println("You have ${manager.credits} credits")
 		print("Type the new value: ")
 
@@ -157,11 +180,12 @@ class ManagerUserService : AbstractService() {
 		} catch (e : NumberFormatException) {
 			println("Error! :/")
 		}
-
+		*/
 		manager.credits = credit
 	}
 
 	fun changeDevsCredits(manager: ManagerUser) {
+		/*
 		var continueDelete = true
 		while(continueDelete) {
 			println("Devs")
@@ -192,9 +216,11 @@ class ManagerUserService : AbstractService() {
 				if(op == 1) continueDelete = false
 			}
 		}
+		 */
 	}
 
 	fun deleteDev(manager: ManagerUser, devs: ArrayList<DevUser>) {
+		/*
 		var notStop = true
 		while(notStop) {
 			println("Devs")
@@ -247,7 +273,9 @@ class ManagerUserService : AbstractService() {
 					}
 				}
 			}
-		}
-	}
 
+		}
+		 */
+
+	}
 }

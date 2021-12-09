@@ -73,6 +73,7 @@ class MenuService {
     }
 
     fun logInManagerMenu (managers: ArrayList<ManagerUser>) : ManagerUser? {
+        /*
         var email: String
         var password: Int
         var stop : Int = 0
@@ -106,10 +107,12 @@ class MenuService {
                 if (op == 1) stop = 1
             }
         }
+        */
        return null
     }
 
      fun loginDevMenu(devs: ArrayList<DevUser>) : DevUser?{
+         /*
          var email: String
          var password: Int
 
@@ -147,6 +150,7 @@ class MenuService {
                  if (op == 1) stop = 1
              }
          }
+          */
          return null
      }
 

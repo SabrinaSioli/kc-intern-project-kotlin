@@ -1,6 +1,6 @@
 package tc.intern.project.handler
 
-class responseHandler {
+class ResponseHandler {
 
     var status_code: Int = 0
     var message: String? = ""

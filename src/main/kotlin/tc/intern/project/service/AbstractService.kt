@@ -7,16 +7,18 @@ abstract class AbstractService {
 
 	fun createProject(user: User) {
 		var op = -1
-		var id : Int
+		var id : String = "1"
 
 		print("Project's name: ")
 		var name: String = readLine()!!.toString()
-
+		/*
 		if (user.projects.isEmpty()) {
 			id = 0
 		} else {
 			id = user.projects.last().id + 1
 		}
+
+		 */
 
 		var project: Project = Project(id, name)
 
@@ -39,6 +41,7 @@ abstract class AbstractService {
 
 
 	fun deleteProject(user: User) {
+		/*
 		var continueDelete = true
 
 		while(continueDelete) {
@@ -84,6 +87,7 @@ abstract class AbstractService {
 				if (op == 1) continueDelete = false
 			}
 		}
+		 */
 
 	}
 

@@ -1,6 +1,7 @@
 package tc.intern.project
 
 import io.vertx.core.AbstractVerticle
+import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.handler.BodyHandler
@@ -14,12 +15,15 @@ import tc.intern.project.verticle.ManagerVerticle
 
 
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class MainVerticle : AbstractVerticle () {
 
-  val devs: MutableMap<String, JsonObject> = HashMap()
-  val managers: MutableMap<String, JsonObject> = HashMap()
+  //val devs: MutableMap<Int, JsonObject> = HashMap()
+  //val managers: MutableMap<Int, JsonObject> = HashMap()
+  val devs: JsonArray = JsonArray()
+  val managers: JsonArray = JsonArray()
 
   override fun start() {
     /*
@@ -40,29 +44,35 @@ class MainVerticle : AbstractVerticle () {
     var managerLogged: ManagerUser? = null
     var devLogged: DevUser? = null
 
+    devLogged = DevUser()
+
+    devs.add(JsonObject.mapFrom(devLogged))
+
     // VERTICLES
     val devVerticle: DevVerticle = DevVerticle()
     val managerVerticle: ManagerVerticle = ManagerVerticle()
 
     //setUpInitialData()
 
+    /*
     /** MANAGER ENDPOINTS */
     router.get("/login/manager").handler { managerVerticle.returnManagerLogged(managerLogged, it)}
     router.get("/login/manager/managers").handler{ managerVerticle.handleListManagers(managers, it) }
-
+  */
     /** DEV ENDPOINTS */
 
 
     //GET
     router.get("/login/dev").handler{ devVerticle.returnDevLogged(devLogged, it) }
-    router.get("/login/dev/devs").handler { devVerticle.handleListDevs( devs, it) }
+    router.get("/login/dev/devs").handler { devVerticle.handleListDevs(devs, it) }
 
     //POST
+    router.post("/signUp/dev").handler { devLogged = devVerticle.createDevUser(devs, it) }
 
 
     vertx.createHttpServer().requestHandler(router).listen(8080)
   }
-
+  /*
   private fun setUpInitialData() {
     addDev(JsonObject().put("id", "0").put("name", "Renê").put("manager", "patrick").put("projects", "jsonProjects").put("email", "rene@gmail.com").put("password", 1234))
     addDev(JsonObject().put("id", "1").put("name", "Renê").put("manager", "patrick").put("projects", "jsonProjects").put("email", "rene@gmail.com").put("password", 1234))
@@ -74,7 +84,7 @@ class MainVerticle : AbstractVerticle () {
   private fun addDev(dev: JsonObject) {
     devs[dev.getString("id")] = dev
   }
-
+  */
   /*
   override fun start(startPromise: Promise<Void>) {
     vertx
