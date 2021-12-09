@@ -7,6 +7,7 @@ import io.vertx.ext.web.Router
 import io.vertx.ext.web.handler.BodyHandler
 import model.DevUser
 import model.ManagerUser
+import model.Project
 import service.DevUserService
 import service.ManagerUserService
 import service.MenuService
@@ -26,27 +27,17 @@ class MainVerticle : AbstractVerticle () {
   val managers: JsonArray = JsonArray()
 
   override fun start() {
-    /*
-    var managers = ArrayList<ManagerUser>()
-    var devs = ArrayList<DevUser>()
-    */
 
     //START THE SERVER
     val router = Router.router(vertx)
     router.route().handler(BodyHandler.create())
 
-    //SERVICES
-    val devService: DevUserService = DevUserService()
-    val managerService: ManagerUserService = ManagerUserService()
-    val menuService: MenuService = MenuService()
-
     // USER LOGGED
     var managerLogged: ManagerUser? = null
     var devLogged: DevUser? = null
 
-    devLogged = DevUser()
 
-    devs.add(JsonObject.mapFrom(devLogged))
+    
 
     // VERTICLES
     val devVerticle: DevVerticle = DevVerticle()
@@ -66,9 +57,9 @@ class MainVerticle : AbstractVerticle () {
     router.get("/dev/devs").handler { devVerticle.handleListDevs(devs, it) }
     //POST
     router.post("/signUp/dev").handler { devLogged = devVerticle.createDevUser(devs, it) }
-    //router.post("/dev/project").handler { devVerticle.createProject(devLogged, it) }
+    router.post("/dev/project").handler { devVerticle.createProject(devLogged!!, it)  }
     //DELETE
-    //router.delete("/dev/project/:projectId").handler { devVerticle.deleteProject(devLogged, it) }
+    //router.delete("/dev/projects/:projectId").handler { devVerticle.deleteProject(devLogged, it) }
 
     vertx.createHttpServer().requestHandler(router).listen(8080)
   }

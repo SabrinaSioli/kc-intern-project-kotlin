@@ -1,94 +1,39 @@
 package service
 
+import io.vertx.core.json.JsonObject
+import io.vertx.kotlin.core.json.get
 import model.Project
 import model.User
 
 abstract class AbstractService {
 
-	fun createProject(user: User) {
-		var op = -1
-		var id : String = "1"
+	fun createProject(user: User, jsonProject: JsonObject) : Project? {
+		if(user.id == -1) { return null }
 
-		print("Project's name: ")
-		var name: String = readLine()!!.toString()
-		/*
-		if (user.projects.isEmpty()) {
-			id = 0
-		} else {
-			id = user.projects.last().id + 1
-		}
+		var project: Project = Project()
 
-		 */
+		project.id = returnPorjectId(user)
+		project.name = jsonProject["name"]
+		project.language = jsonProject["language"]
 
-		var project: Project = Project(id, name)
+		user.projects.add(project)
 
-		user.projects.add(project);
-
-		println("""
-			Do you want to create another one?
-			1 - Yes
-			2 - No
-		""".trimIndent())
-
-		try {
-			op = readLine()!!.toInt()
-		} catch (e : NumberFormatException) {
-			println("Error! :/")
-		}
-
-		if (op == 1) createProject(user)
+		return project
 	}
 
 
-	fun deleteProject(user: User) {
-		/*
-		var continueDelete = true
+	fun returnPorjectId(user: User): Int {
+		var projectId: Int = 0;
 
-		while(continueDelete) {
-			//Show the projects
-			if (user.projects.isEmpty()) {
-				println("None")
-			}
-			user.projects.forEach { project ->
-				println{"""
-				id: ${project.id} name: ${project.name}
-				""".trimIndent()}
-			}
-			println("")
 
-			//Input the id
-			print("Project's Id: ")
-			var projectId: Int = readLine()!!.toInt()
-
-			//test id
-			var project: Project? = user.projects.find { project -> project.id == projectId }
-
-			if (project != null){ // id exists
-				user.projects.remove(project)
-
-				println("""
-				Do you want delete another project?
-				0 - yes
-				1 - No
-				""".trimIndent())
-				var op = readLine()!!.toInt()
-
-				if (op == 1) continueDelete = false
-			} else { //id not exists
-				println("Id not found.\n")
-				println("""
-					Do you want:
-					0 - try again
-					1 - return
-				""".trimIndent())
-
-				var op = readLine()!!.toInt()
-
-				if (op == 1) continueDelete = false
-			}
+		if (user.projects.isEmpty() != true) {
+			projectId = user.projects.maxOf { it.id }
 		}
-		 */
 
+
+		return projectId+1;
 	}
+
+
 
 }

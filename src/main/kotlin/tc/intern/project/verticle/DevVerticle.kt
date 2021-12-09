@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.RoutingContext
 import model.DevUser
+import model.Project
 import service.DevUserService
 import tc.intern.project.handler.ResponseHandler
 
@@ -57,6 +58,18 @@ class DevVerticle {
         return devLogged
     }
 
+    fun createProject(devLogged: DevUser, routingContext: RoutingContext){
+
+        val project: Project?  = devService.createProject(devLogged, routingContext.bodyAsJson)
+
+        if (project != null) {
+            routingContext.response().putHeader("content-type", "application/json")
+                .end(Json.encodePrettily(ResponseHandler(201, "Your project was created!", JsonObject.mapFrom(project))))
+        } else {
+            routingContext.response().end(Json.encodePrettily(ResponseHandler(401, "Your project was not created!", JsonObject.mapFrom(project))))
+        }
+
+    }
 
 
 
