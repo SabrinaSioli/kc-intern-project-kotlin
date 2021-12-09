@@ -10,7 +10,7 @@ class ManagerUserService : AbstractService() {
 		var user = ManagerUser()
 		var isNotUniq = true
 		var op = 0
-		var id: String = "1"
+		var id: Int = 1
 		var name: String = ""
 		var email = ""
 		var password: String = "1234" // ask about this
@@ -67,7 +67,6 @@ class ManagerUserService : AbstractService() {
 			}
 		}
 		 */
-		id = "2"
 		user.id = id
 		user.name = name
 		user.email = email
@@ -77,7 +76,7 @@ class ManagerUserService : AbstractService() {
 
 		return user
 	}
-
+/*
 	fun createDev(manager : ManagerUser, devs: ArrayList<DevUser>) {
 		var CreateDev = 1
 
@@ -278,4 +277,5 @@ class ManagerUserService : AbstractService() {
 		 */
 
 	}
+ */
 }

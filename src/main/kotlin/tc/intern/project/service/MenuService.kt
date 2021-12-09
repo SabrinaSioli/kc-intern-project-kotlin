@@ -4,6 +4,7 @@ import model.DevUser
 import model.ManagerUser
 
 class MenuService {
+    /*
 
     fun rootMenu(): Int {
         var op = -1
@@ -230,4 +231,6 @@ class MenuService {
             }
         }
     }
+
+     */
 }

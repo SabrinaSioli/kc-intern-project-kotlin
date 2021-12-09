@@ -61,14 +61,14 @@ class MainVerticle : AbstractVerticle () {
   */
     /** DEV ENDPOINTS */
 
-
     //GET
     router.get("/login/dev").handler{ devVerticle.returnDevLogged(devLogged, it) }
-    router.get("/login/dev/devs").handler { devVerticle.handleListDevs(devs, it) }
-
+    router.get("/dev/devs").handler { devVerticle.handleListDevs(devs, it) }
     //POST
     router.post("/signUp/dev").handler { devLogged = devVerticle.createDevUser(devs, it) }
-
+    //router.post("/dev/project").handler { devVerticle.createProject(devLogged, it) }
+    //DELETE
+    //router.delete("/dev/project/:projectId").handler { devVerticle.deleteProject(devLogged, it) }
 
     vertx.createHttpServer().requestHandler(router).listen(8080)
   }

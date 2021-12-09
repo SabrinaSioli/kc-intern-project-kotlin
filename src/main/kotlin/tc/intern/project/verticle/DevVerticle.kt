@@ -56,10 +56,13 @@ class DevVerticle {
 
         return devLogged
     }
-/*
-    fun sendError(statusCode: Int, response: HttpServerResponse) {
-        response.setStatusCode(statusCode).end()
-    }
-*/
 
+
+
+
+/*
+fun sendError(statusCode: Int, response: HttpServerResponse) {
+    response.setStatusCode(statusCode).end()
+}
+*/
 }

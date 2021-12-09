@@ -6,7 +6,7 @@ class DevUser : User {
 
 	constructor() {}
 
-	constructor(id: String, name: String, credits: String, manager: ManagerUser, projects: Array<Project>, email: String ,password: String) {
+	constructor(id: Int, name: String, credits: String, manager: ManagerUser, projects: Array<Project>, email: String ,password: String) {
 		this.id = id
 		this.name = name
 		this.credits = credits
