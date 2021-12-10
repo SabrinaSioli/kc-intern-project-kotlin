@@ -4,15 +4,19 @@ import io.vertx.core.json.Json
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.RoutingContext
+import io.vertx.kotlin.core.json.get
 import model.DevUser
 import tc.intern.project.handler.ResponseHandler
 import model.ManagerUser;
 import model.Project
 import service.ManagerUserService
+import tc.intern.project.handler.ExceptionsResponseHandler
+import java.lang.IllegalArgumentException
 
 class ManagerVerticle {
 
     private val managerService = ManagerUserService()
+    private val exceptionsResponseHandle = ExceptionsResponseHandler()
 
     fun returnManagerLogged(managerLogged: ManagerUser?, routingContext: RoutingContext ){
         if (managerLogged == null) {
@@ -68,4 +72,38 @@ class ManagerVerticle {
 
     }
 
+    fun createDevUser(managerLogged: ManagerUser, devs: JsonArray, routingContext: RoutingContext) {
+        try {
+            var dev: DevUser? = DevUser()
+
+            dev = managerService.createDevUser(managerLogged, devs, routingContext.bodyAsJson)
+
+            if (dev != null) {
+                routingContext.response().setStatusCode(201).putHeader("content-type", "application/json")
+                    .end(Json.encodePrettily(ResponseHandler(201, "Successful creation", JsonObject.mapFrom(dev))))
+
+            } else {
+                routingContext.response().setStatusCode(401)
+                    .end(
+                        Json.encodePrettily(
+                            ResponseHandler(
+                                401,
+                                "It was not possible to create ",
+                                JsonObject.mapFrom(dev)
+                            )
+                        )
+                    )
+            }
+        } catch (e: IllegalArgumentException) {
+            exceptionsResponseHandle.illegalArgumentException(routingContext, e)
+        }
+    }
+
+    fun changeDevCredits(managerLogged: ManagerUser, managers: JsonArray, devs: JsonArray, routingContext: RoutingContext) {
+
+        //managerService.changeDevCredits(managerLogged, managers, devs, routingContext.bodyAsJson["devId"], routingContext.bodyAsJson["newCredits"])
+        routingContext.response().setStatusCode(201).putHeader("content-type", "application/json")
+            .end(Json.encodePrettily(ResponseHandler(201, "Your account was created", JsonObject.mapFrom(managerLogged))))
+
+    }
 }

@@ -28,9 +28,8 @@ class DevUserService : AbstractService() {
             DevId = 0
         } else {
             var idMax: Int = devs.getJsonObject(0)["id"]
-            val sizeMinusOne = devs.size() - 1
 
-            for (i in 1 .. sizeMinusOne) {
+            for (i in 1 until devs.size()) {
                 val id: Int = devs.getJsonObject(i)["id"]
                 if (idMax < id) { idMax = id }
             }

@@ -47,10 +47,13 @@ class MainVerticle : AbstractVerticle () {
     //POST
     router.post("/signUp/manager").handler{ managerLogged = managerVerticle.createManagerUser(managers, it) }
     router.post("/manager/project").handler{ managerVerticle.createProject(managerLogged!!, it) }
+    router.post("/manager/dev").handler{ managerVerticle.createDevUser(managerLogged!!, devs, it)}
+    //PUT
+    //router.put("/manager/devs/:devId/credits/:newCredits").handler{ managerVerticle.changeDevCredits(managerLogged!!, managers, devs, it)}
 
     /** DEV ENDPOINTS */
 
-    //GET
+    //GEdev
     router.get("/login/dev").handler{ devVerticle.returnDevLogged(devLogged, it) }
     router.get("/dev/devs").handler { devVerticle.handleListDevs(devs, it) }
     //POST

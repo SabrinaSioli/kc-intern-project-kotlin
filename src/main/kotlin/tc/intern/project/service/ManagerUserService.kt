@@ -5,13 +5,14 @@ import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.core.json.get
 import model.ManagerUser
 import model.DevUser
+import model.Project
 
 class ManagerUserService : AbstractService() {
 
 	fun createUser(managers: JsonArray, jsonInput: JsonObject): ManagerUser? {
 		var user = ManagerUser()
 
-		user.id = returnDevId(managers)
+		user.id = returnManagerId(managers)
 		user.name = jsonInput["name"]
 		user.email = jsonInput["email"]
 		user.password = jsonInput["password"]
@@ -21,7 +22,7 @@ class ManagerUserService : AbstractService() {
 		return user
 	}
 
-	fun returnDevId(managers: JsonArray): Int {
+	fun returnManagerId(managers: JsonArray): Int {
 		var managerId: Int;
 
 		if (managers.isEmpty()) {
@@ -43,6 +44,68 @@ class ManagerUserService : AbstractService() {
 		}
 
 		return managerId;
+	}
+
+	fun createDevUser(managerLogged: ManagerUser, devs: JsonArray, jsonDev: JsonObject) : DevUser {
+		var devUser: DevUser = DevUser()
+
+		devUser.id = returnDevId(devs)
+		devUser.name = jsonDev["name"]
+		//devUser.manager = managerLogged
+		devUser.credits = jsonDev["credits"]
+		devUser.email = jsonDev["email"]
+
+		val projectsJson: JsonArray = jsonDev["projects"]
+
+		for (i in 0 until projectsJson.size()) {
+			var project = Project()
+
+			project.id = returnPorjectId(devUser)
+			project.name =  projectsJson.getJsonObject(i)["name"]
+			project.language = projectsJson.getJsonObject(i)["language"]
+
+			devUser.projects.add(project)
+		}
+
+		devs.add(JsonObject.mapFrom(devUser))
+		managerLogged.devs.add(devUser)
+
+		return devUser
+	}
+
+	fun returnDevId(devs: JsonArray): Int {
+		var DevId: Int;
+
+		if (devs.isEmpty()) {
+			DevId = 0
+		} else {
+			var idMax: Int = devs.getJsonObject(0)["id"]
+
+			for (i in 1 until devs.size() - 1) {
+				val id: Int = devs.getJsonObject(i)["id"]
+				if (idMax < id) { idMax = id }
+			}
+
+			if(idMax == -1) {
+				DevId = 0
+			} else {
+				DevId = idMax+1
+			}
+		}
+
+		return DevId;
+	}
+
+	fun changeDevCredits(manager: ManagerUser, managers: JsonArray, devs: JsonArray, devId: Int, credits: String) {
+		/*
+		if (devId == 0) {
+			manager.credits += credits
+		} else {
+			findDevById(manager, devId).credits += credits
+
+		}
+		 */
+
 	}
 	
 	/*
