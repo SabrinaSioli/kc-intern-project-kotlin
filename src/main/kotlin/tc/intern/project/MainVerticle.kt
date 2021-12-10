@@ -34,16 +34,19 @@ class MainVerticle : AbstractVerticle () {
 
     //SET UP INICIAL DATA
     devLogged = setUpInitialDataDev()
+    devs.add(JsonObject.mapFrom(devLogged))
     managerLogged = setUpInitialDataManager()
-    setUpInitialDataManagers()
-    setUpInitialDataManagers()
+    managers.add(JsonObject.mapFrom(managerLogged))
+    //setUpInitialDataManagers()
+    //setUpInitialDataManagers()
 
     /** MANAGER ENDPOINTS */
     //GET
     router.get("/login/manager").handler { managerVerticle.returnManagerLogged(managerLogged, it)}
-    router.get("/login/manager/managers").handler{ managerVerticle.handleListManagers(managers, it) }
+    router.get("/manager/managers").handler{ managerVerticle.handleListManagers(managers, it) }
     //POST
-    router.post("/signUp/manager").handler{ managerVerticle.createManagerUser(managers, it) }
+    router.post("/signUp/manager").handler{ managerLogged = managerVerticle.createManagerUser(managers, it) }
+    router.post("/manager/project").handler{ managerVerticle.createProject(managerLogged!!, it) }
 
     /** DEV ENDPOINTS */
 

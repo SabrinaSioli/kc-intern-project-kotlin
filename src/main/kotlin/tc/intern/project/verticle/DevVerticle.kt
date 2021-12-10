@@ -58,8 +58,11 @@ class DevVerticle {
         val project: Project?  = devService.createProject(devLogged, routingContext.bodyAsJson)
 
         if (project != null) {
+            devLogged.projects.add(project)
+
             routingContext.response().putHeader("content-type", "application/json")
                 .end(Json.encodePrettily(ResponseHandler(201, "Your project was created!", JsonObject.mapFrom(project))))
+
         } else {
             routingContext.response().end(Json.encodePrettily(ResponseHandler(401, "Your project was not created!", JsonObject.mapFrom(project))))
         }

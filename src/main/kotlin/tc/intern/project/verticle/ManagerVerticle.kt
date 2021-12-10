@@ -7,6 +7,7 @@ import io.vertx.ext.web.RoutingContext
 import model.DevUser
 import tc.intern.project.handler.ResponseHandler
 import model.ManagerUser;
+import model.Project
 import service.ManagerUserService
 
 class ManagerVerticle {
@@ -49,6 +50,22 @@ class ManagerVerticle {
         }
 
         return managerLogged
+    }
+
+    fun createProject(managerLogged: ManagerUser, routingContext: RoutingContext){
+
+        val project: Project?  = managerService.createProject(managerLogged, routingContext.bodyAsJson)
+
+        if (project != null) {
+            managerLogged.projects.add(project)
+
+            routingContext.response().putHeader("content-type", "application/json")
+                .end(Json.encodePrettily(ResponseHandler(201, "Your project was created!", JsonObject.mapFrom(project))))
+
+        } else {
+            routingContext.response().end(Json.encodePrettily(ResponseHandler(401, "Your project was not created!", JsonObject.mapFrom(project))))
+        }
+
     }
 
 }
