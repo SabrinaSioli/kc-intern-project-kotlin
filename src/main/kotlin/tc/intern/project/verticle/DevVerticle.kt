@@ -28,8 +28,10 @@ class DevVerticle {
 
     fun handleListDevs(devs: JsonArray, routingContext: RoutingContext) {
         when(devs.isEmpty) {
-            true -> routingContext.response().setStatusCode(204).putHeader("content-type", "application/json").end(Json.encodePrettily(devs))
-            false -> routingContext.response().setStatusCode(200).putHeader("content-type", "application/json").end(Json.encodePrettily(devs))
+            true -> routingContext.response().setStatusCode(204).putHeader("content-type", "application/json")
+                .end(Json.encodePrettily(ResponseHandler(204, "Not found", null)))
+            false -> routingContext.response().setStatusCode(200).putHeader("content-type", "application/json")
+                .end(Json.encodePrettily(ResponseHandler(200, "Successful search", devs)))
         }
 
     }
