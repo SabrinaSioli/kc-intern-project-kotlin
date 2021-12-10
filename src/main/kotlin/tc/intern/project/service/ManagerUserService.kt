@@ -1,11 +1,51 @@
 package service
 
+import io.vertx.core.json.JsonArray
+import io.vertx.core.json.JsonObject
+import io.vertx.kotlin.core.json.get
 import model.ManagerUser
 import model.DevUser
-import java.lang.NumberFormatException
 
 class ManagerUserService : AbstractService() {
 
+	fun createUser(managers: JsonArray, jsonInput: JsonObject): ManagerUser? {
+		var user = ManagerUser()
+
+		user.id = returnDevId(managers)
+		user.name = jsonInput["name"]
+		user.email = jsonInput["email"]
+		user.password = jsonInput["password"]
+
+		managers.add(JsonObject.mapFrom(user))
+
+		return user
+	}
+
+	fun returnDevId(managers: JsonArray): Int {
+		var managerId: Int;
+
+		if (managers.isEmpty()) {
+			managerId = 0
+		} else {
+			var idMax: Int = managers.getJsonObject(0)["id"]
+			val sizeMinusOne = managers.size() - 1
+
+			for (i in 1 .. sizeMinusOne) {
+				val id: Int = managers.getJsonObject(i)["id"]
+				if (idMax < id) { idMax = id }
+			}
+
+			if(idMax == -1) {
+				managerId = 0
+			} else {
+				managerId = idMax+1
+			}
+		}
+
+		return managerId;
+	}
+	
+	/*
 	fun createUser(managers: ArrayList<ManagerUser>) : ManagerUser? {
 		var user = ManagerUser()
 		var isNotUniq = true
@@ -278,4 +318,6 @@ class ManagerUserService : AbstractService() {
 
 	}
  */
+ */
+	 
 }

@@ -39,8 +39,11 @@ class MainVerticle : AbstractVerticle () {
     setUpInitialDataManagers()
 
     /** MANAGER ENDPOINTS */
+    //GET
     router.get("/login/manager").handler { managerVerticle.returnManagerLogged(managerLogged, it)}
     router.get("/login/manager/managers").handler{ managerVerticle.handleListManagers(managers, it) }
+    //POST
+    router.post("/signUp/manager").handler{ managerVerticle.createManagerUser(managers, it) }
 
     /** DEV ENDPOINTS */
 
