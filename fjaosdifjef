@@ -1,0 +1,194 @@
+[33mcommit 119979a93f7c117339ec7c23afc437eca806f491[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Thu Dec 9 21:02:22 2021 -0300
+
+    create delete('dev/project/:Idproject')
+
+[33mcommit ee12c9fd0185586d24f82dfb9510fba0b8f071a8[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Thu Dec 9 20:10:47 2021 -0300
+
+    create the post('dev/project')
+
+[33mcommit 2881f0102f6e5e5fd6650dc89b0a03372b290635[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Thu Dec 9 14:48:56 2021 -0300
+
+    Create returnDevId
+
+[33mcommit 266d9ef07b9f128f4d60da7e028d66caf3af0d89[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Thu Dec 9 11:11:46 2021 -0300
+
+    change from mutable list to JsonArray
+
+[33mcommit f2575dd0d73fe7ce8ec8919dede1e58ed7baed8c[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Dec 8 22:52:01 2021 -0300
+
+    add 2 get of manager
+
+[33mcommit 220f825709b706e09e0632e81eb59986e2bf5a2e[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Dec 8 22:35:14 2021 -0300
+
+    creation of the responseHandler class
+
+[33mcommit 4fed8ffa65756c445294fc0b53f4dff2b92172a4[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 8ff97fb caca3b7
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Dec 8 17:01:52 2021 -0300
+
+    Merge branch 'main' into vertx
+
+[33mcommit 8ff97fb4fdacc2cccf6330a61c06bb8ae2734239[m
+Merge: 89d8816 c23c102
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Dec 8 16:59:15 2021 -0300
+
+    Merge branch 'vertx' of https://github.com/SabrinaSioli/tc-intern-project into vertx
+
+[33mcommit 89d88160bb0bda1a85e56f3b1f89037bd4be3eca[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Dec 8 16:58:05 2021 -0300
+
+    implement a request get in the route '/devs'
+
+[33mcommit c23c10239284ce8d2bcf6a18aabe3008f5e5cae5[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Tue Dec 7 17:43:13 2021 -0300
+
+    Update README.md
+
+[33mcommit 0dc00dca9213a70611e1dc34c5cee4677da5933f[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Tue Dec 7 17:41:28 2021 -0300
+
+    test request get
+
+[33mcommit caca3b7a102d949b911f49b6c798b97ae5082768[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Tue Dec 7 15:39:42 2021 -0300
+
+    change name
+
+[33mcommit 5778eac0657cf0ba4798370d39fc0cd16c33c8ee[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Tue Dec 7 15:38:39 2021 -0300
+
+    change name
+
+[33mcommit 01810e62095f99b2353b994430661e77be7d1fab[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Tue Dec 7 15:05:18 2021 -0300
+
+    change the name
+
+[33mcommit e49cf2fc00af656f575dd8ef8aeb9be72ed59111[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Dec 1 15:09:45 2021 -0300
+
+    update dockerfile
+
+[33mcommit 034821184593563e084b159d954928c4d24d77d3[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Dec 1 14:36:06 2021 -0300
+
+    dockerfile creation
+
+[33mcommit 19e58e16a0b58e635c632185c0f278b57181e4b1[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Dec 1 14:32:35 2021 -0300
+
+    gitignore file update and project configuration to use maven
+
+[33mcommit e4bb487fcfc43128881f972310ce09e6ef2844b1[m
+Merge: b6a18bb e01e621
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Mon Nov 29 16:43:49 2021 -0300
+
+    Merge branch 'main' of https://github.com/SabrinaSioli/TC_InternshipProject into main
+
+[33mcommit b6a18bbb794be6533c9db091542f4956f49bf885[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Mon Nov 29 16:42:09 2021 -0300
+
+    Update gitignore
+
+[33mcommit 22c1f086da150ace77e62dabb2786dd04d96d49b[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Mon Nov 29 16:36:36 2021 -0300
+
+    Update gitignore
+
+[33mcommit e01e6216fb0db89c9fbfe4cc6673cfa2643d7df5[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Mon Nov 29 12:03:40 2021 -0300
+
+    Update README.md
+
+[33mcommit 9c97ac0cc133a5e6db2aa163ee47f9b566c34769[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Mon Nov 29 12:02:01 2021 -0300
+
+    Update README.md
+
+[33mcommit 9f82c27900dcccefc78690e09c6b0bf59a2fe31f[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Mon Nov 29 12:01:49 2021 -0300
+
+    Update README.md
+
+[33mcommit 9e0c248146463bcd3015782ef2202bec06c3e500[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Mon Nov 29 12:01:26 2021 -0300
+
+    Update README.md
+
+[33mcommit 41c36a4eab4c023f31ceaa4c670e70ebd98d6153[m
+Author: SabrinaSioli <sabrinasioli@alu.ufc.br>
+Date:   Mon Nov 29 11:28:11 2021 -0300
+
+    improve id and fix some bugs
+
+[33mcommit 4b476c68695059566ad5fef91321be22448cc278[m
+Author: SabrinaSioli <sabrinasioli@alu.ufc.br>
+Date:   Fri Nov 26 10:52:26 2021 -0300
+
+    fix some bugs
+
+[33mcommit 0126427af1b5a3014f83235d8318d589a43c3e2b[m
+Author: SabrinaSioli <sabrinasioli@alu.ufc.br>
+Date:   Fri Nov 26 10:28:12 2021 -0300
+
+    fix some bugs
+
+[33mcommit 035732a469e74cb1a4a561dfc5ef0dbdb9921d74[m
+Author: SabrinaSioli <sabrinasioli@alu.ufc.br>
+Date:   Fri Nov 26 09:16:48 2021 -0300
+
+    some improvements
+
+[33mcommit f098093105930c3a263d3071b85ab0a9e88f61ef[m
+Author: SabrinaSioli <sabrinasioli@alu.ufc.br>
+Date:   Sun Nov 21 19:16:45 2021 -0300
+
+    creation of the service package and its classes
+
+[33mcommit 32051492464bd1cd6951c33e8b00b2f75d776796[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Nov 10 17:15:49 2021 -0300
+
+    Update the README.md
+
+[33mcommit ab0989c55bc602a52aed4bb9d75b1d9cad2881c8[m
+Author: SabrinaSioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Nov 10 16:59:13 2021 -0300
+
+    Creation of classes
+
+[33mcommit 294fc2da08830c9f8f8dc00bcc3180fdf31ecb24[m
+Author: Sabrina Sioli <sabrinasioli@alu.ufc.br>
+Date:   Wed Nov 10 09:21:08 2021 -0300
+
+    Initial commit

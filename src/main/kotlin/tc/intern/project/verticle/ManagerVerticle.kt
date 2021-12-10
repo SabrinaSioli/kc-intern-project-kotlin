@@ -11,22 +11,13 @@ class ManagerVerticle {
 
     fun returnManagerLogged(managerLogged: ManagerUser?, routingContext: RoutingContext ){
         if (managerLogged == null) {
-            routingContext
-                .response()
-                .setStatusCode(401)
-                .end(JsonObject
-                    .mapFrom(ResponseHandler(401, "Manager not logged. You must log in.", null))
-                    .encodePrettily())
+            routingContext.response().setStatusCode(401)
+                .end(JsonObject.mapFrom(ResponseHandler(401, "Manager not logged.", null)).encodePrettily())
+        } else {
+            routingContext.response().setStatusCode(200).putHeader("content-type", "application/json")
+                .end(JsonObject.mapFrom(ResponseHandler(200, "Successful search", JsonObject.mapFrom(managerLogged))).encodePrettily())
         }
 
-        routingContext
-            .response()
-            .setStatusCode(200)
-            .putHeader("content-type", "application/json")
-            .end(JsonObject
-                .mapFrom(ResponseHandler(200, "Successful search", JsonObject.mapFrom(managerLogged)))
-                .encodePrettily()
-            )
     }
 
     fun handleListManagers(devs: JsonArray, routingContext: RoutingContext) {

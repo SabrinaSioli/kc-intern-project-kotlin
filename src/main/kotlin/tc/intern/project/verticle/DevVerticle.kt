@@ -18,22 +18,12 @@ class DevVerticle {
 
     fun returnDevLogged(devLogged: DevUser?, routingContext: RoutingContext ){
         if (devLogged == null) {
-            routingContext
-                .response()
-                .setStatusCode(401)
-                .end(JsonObject
-                    .mapFrom(ResponseHandler(401, "Dev not logged. You must log in.", null))
-                    .encodePrettily())
+            routingContext.response().setStatusCode(401)
+                .end(JsonObject.mapFrom(ResponseHandler(401, "Dev not logged", null)).encodePrettily())
+        } else {
+            routingContext.response().setStatusCode(200).putHeader("content-type", "application/json")
+                .end(JsonObject.mapFrom(ResponseHandler(200, "Successful search", JsonObject.mapFrom(devLogged))).encodePrettily())
         }
-
-        routingContext
-            .response()
-            .setStatusCode(200)
-            .putHeader("content-type", "application/json")
-            .end(JsonObject
-                .mapFrom(ResponseHandler(200, "Successful search", JsonObject.mapFrom(devLogged)))
-                .encodePrettily()
-            )
     }
 
     fun handleListDevs(devs: JsonArray, routingContext: RoutingContext) {
@@ -85,6 +75,8 @@ class DevVerticle {
             exceptionsResponseHandler.objectNotFoundExceptionResponse(routingContext, e)
         }
     }
+
+
 
 
 

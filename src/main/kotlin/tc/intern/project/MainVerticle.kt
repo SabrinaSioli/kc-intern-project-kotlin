@@ -8,16 +8,8 @@ import io.vertx.ext.web.handler.BodyHandler
 import model.DevUser
 import model.ManagerUser
 import model.Project
-import service.DevUserService
-import service.ManagerUserService
-import service.MenuService
 import tc.intern.project.verticle.DevVerticle
 import tc.intern.project.verticle.ManagerVerticle
-
-
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class MainVerticle : AbstractVerticle () {
 
@@ -36,28 +28,20 @@ class MainVerticle : AbstractVerticle () {
     var managerLogged: ManagerUser? = null
     var devLogged: DevUser? = null
 
-    devLogged = DevUser()
-    devLogged.id = 1
-
-    var project = Project()
-    project.id = 3
-    devLogged.projects.add(project)
-
-    devs.add(JsonObject.mapFrom(devLogged))
-
-
-
     // VERTICLES
     val devVerticle: DevVerticle = DevVerticle()
     val managerVerticle: ManagerVerticle = ManagerVerticle()
 
-    //setUpInitialData()
+    //SET UP INICIAL DATA
+    devLogged = setUpInitialDataDev()
+    managerLogged = setUpInitialDataManager()
+    setUpInitialDataManagers()
+    setUpInitialDataManagers()
 
-    /*
     /** MANAGER ENDPOINTS */
     router.get("/login/manager").handler { managerVerticle.returnManagerLogged(managerLogged, it)}
     router.get("/login/manager/managers").handler{ managerVerticle.handleListManagers(managers, it) }
-  */
+
     /** DEV ENDPOINTS */
 
     //GET
@@ -71,36 +55,74 @@ class MainVerticle : AbstractVerticle () {
 
     vertx.createHttpServer().requestHandler(router).listen(8080)
   }
-  /*
-  private fun setUpInitialData() {
-    addDev(JsonObject().put("id", "0").put("name", "Renê").put("manager", "patrick").put("projects", "jsonProjects").put("email", "rene@gmail.com").put("password", 1234))
-    addDev(JsonObject().put("id", "1").put("name", "Renê").put("manager", "patrick").put("projects", "jsonProjects").put("email", "rene@gmail.com").put("password", 1234))
-    addDev(JsonObject().put("id", "2").put("name", "Renê").put("manager", "patrick").put("projects", "jsonProjects").put("email", "rene@gmail.com").put("password", 1234))
 
+  private fun setUpInitialDataDev() :DevUser {
+    var dev = DevUser()
+    dev.id = 0
+    dev.name = "inicialDev"
 
+    var project = Project()
+    project.id = 0
+    dev.projects.add(project)
+
+    devs.add(JsonObject.mapFrom(dev))
+
+    return dev
   }
 
-  private fun addDev(dev: JsonObject) {
-    devs[dev.getString("id")] = dev
+  private fun setUpInitialDataManager() :ManagerUser {
+    var manager = ManagerUser()
+    manager.id = 0
+    manager.name = "inicialManager"
+
+    var project = Project()
+    project.id = 0
+    manager.projects.add(project)
+
+    devs.add(JsonObject.mapFrom(manager))
+
+    return manager
   }
-  */
-  /*
-  override fun start(startPromise: Promise<Void>) {
-    vertx
-      .createHttpServer()
-      .requestHandler { req ->
-        req.response()
-          .putHeader("content-type", "text/plain")
-          .end("Hello from Vert.x!")
-      }
-      .listen(8888) { http ->
-        if (http.succeeded()) {
-          startPromise.complete()
-          println("HTTP server started on port 8888")
-        } else {
-          startPromise.fail(http.cause());
-        }
-      }
+
+  private fun setUpInitialDataManagers() {
+    var manager1 = ManagerUser()
+    manager1.id = 1
+
+    var project1 = Project()
+    project1.id = 0
+    manager1.projects.add(project1)
+
+    managers.add(JsonObject.mapFrom(manager1))
+
+    var manager2 = ManagerUser()
+    manager2.id = 2
+
+    var project2 = Project()
+    project2.id = 0
+    manager2.projects.add(project2)
+
+    managers.add(JsonObject.mapFrom(manager2))
   }
-   */
+
+  private fun setUpInitialDataDevs() {
+    var dev1 = ManagerUser()
+    dev1.id = 1
+
+    var project1 = Project()
+    project1.id = 0
+    dev1.projects.add(project1)
+
+    devs.add(JsonObject.mapFrom(dev1))
+
+    var dev2 = ManagerUser()
+    dev2.id = 2
+
+    var project2 = Project()
+    project2.id = 0
+    dev2.projects.add(project2)
+
+    devs.add(JsonObject.mapFrom(dev2))
+  }
+
+
 }
