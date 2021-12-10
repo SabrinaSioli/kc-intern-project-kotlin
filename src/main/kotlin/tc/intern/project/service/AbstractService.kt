@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.core.json.get
 import model.Project
 import model.User
+import tc.intern.project.exceptions.ObjectNotFoundException
 
 abstract class AbstractService {
 
@@ -32,6 +33,17 @@ abstract class AbstractService {
 
 
 		return projectId+1;
+	}
+
+	fun deleteProject(user:User, projectId: Int) {
+
+		try {
+			var project: Project = user.projects.single { it.id == projectId }
+			user.projects.remove(project)
+		} catch (e: NoSuchElementException) {
+			throw ObjectNotFoundException()
+		}
+
 	}
 
 

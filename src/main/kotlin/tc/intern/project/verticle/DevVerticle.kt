@@ -7,11 +7,14 @@ import io.vertx.ext.web.RoutingContext
 import model.DevUser
 import model.Project
 import service.DevUserService
+import tc.intern.project.exceptions.ObjectNotFoundException
+import tc.intern.project.handler.ExceptionsResponseHandler
 import tc.intern.project.handler.ResponseHandler
 
 class DevVerticle {
 
-    val devService = DevUserService()
+    private val devService = DevUserService()
+    private val exceptionsResponseHandler = ExceptionsResponseHandler()
 
     fun returnDevLogged(devLogged: DevUser?, routingContext: RoutingContext ){
         if (devLogged == null) {
@@ -69,6 +72,18 @@ class DevVerticle {
             routingContext.response().end(Json.encodePrettily(ResponseHandler(401, "Your project was not created!", JsonObject.mapFrom(project))))
         }
 
+    }
+
+    fun deleteProject(devLogged: DevUser, routingContext: RoutingContext){
+
+        val projectId: Int = routingContext.request().getParam("projectId").toInt()
+
+        try {
+            devService.deleteProject(devLogged, projectId)
+            routingContext.response().putHeader("content-type", "application/json").setStatusCode(204).end(Json.encodePrettily(ResponseHandler(204, "The project was deleted", null)))
+        } catch (e: ObjectNotFoundException) {
+            exceptionsResponseHandler.objectNotFoundExceptionResponse(routingContext, e)
+        }
     }
 
 

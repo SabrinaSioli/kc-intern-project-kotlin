@@ -36,8 +36,16 @@ class MainVerticle : AbstractVerticle () {
     var managerLogged: ManagerUser? = null
     var devLogged: DevUser? = null
 
+    devLogged = DevUser()
+    devLogged.id = 1
 
-    
+    var project = Project()
+    project.id = 3
+    devLogged.projects.add(project)
+
+    devs.add(JsonObject.mapFrom(devLogged))
+
+
 
     // VERTICLES
     val devVerticle: DevVerticle = DevVerticle()
@@ -59,7 +67,7 @@ class MainVerticle : AbstractVerticle () {
     router.post("/signUp/dev").handler { devLogged = devVerticle.createDevUser(devs, it) }
     router.post("/dev/project").handler { devVerticle.createProject(devLogged!!, it)  }
     //DELETE
-    //router.delete("/dev/projects/:projectId").handler { devVerticle.deleteProject(devLogged, it) }
+    router.delete("/dev/projects/:projectId").handler { devVerticle.deleteProject(devLogged!!, it) }
 
     vertx.createHttpServer().requestHandler(router).listen(8080)
   }
