@@ -32,7 +32,7 @@ abstract class AbstractService {
 		}
 
 
-		return projectId+1;
+		return (projectId + 1);
 	}
 
 	fun deleteProject(user:User, projectId: Int) {

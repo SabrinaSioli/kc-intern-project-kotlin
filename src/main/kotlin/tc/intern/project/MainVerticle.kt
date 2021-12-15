@@ -15,8 +15,8 @@ class MainVerticle : AbstractVerticle () {
 
   //val devs: MutableMap<Int, JsonObject> = HashMap()
   //val managers: MutableMap<Int, JsonObject> = HashMap()
-  val devs: JsonArray = JsonArray()
-  val managers: JsonArray = JsonArray()
+  val devs: ArrayList<DevUser> = ArrayList()
+  val managers: ArrayList<ManagerUser> = arrayListOf()
 
   override fun start() {
 
@@ -33,27 +33,31 @@ class MainVerticle : AbstractVerticle () {
     val managerVerticle: ManagerVerticle = ManagerVerticle()
 
     //SET UP INICIAL DATA
-    devLogged = setUpInitialDataDev()
-    devs.add(JsonObject.mapFrom(devLogged))
-    managerLogged = setUpInitialDataManager()
-    managers.add(JsonObject.mapFrom(managerLogged))
+    //devLogged = setUpInitialDataDev()
+    //devs.add(JsonObject.mapFrom(devLogged))
+    //managerLogged = setUpInitialDataManager()
+    //devLogged = managerLogged.devs[0]
     //setUpInitialDataManagers()
     //setUpInitialDataManagers()
+
+    managerLogged = ManagerUser()
+    managerLogged.name = "sabrina"
 
     /** MANAGER ENDPOINTS */
     //GET
     router.get("/login/manager").handler { managerVerticle.returnManagerLogged(managerLogged, it)}
     router.get("/manager/managers").handler{ managerVerticle.handleListManagers(managers, it) }
     //POST
+
     router.post("/signUp/manager").handler{ managerLogged = managerVerticle.createManagerUser(managers, it) }
-    router.post("/manager/project").handler{ managerVerticle.createProject(managerLogged!!, it) }
-    router.post("/manager/dev").handler{ managerVerticle.createDevUser(managerLogged!!, devs, it)}
+    //router.post("/manager/project").handler{ managerVerticle.createProject(managerLogged!!, it) }
+    //router.post("/manager/dev").handler{ managerVerticle.createDevUser(managerLogged!!, devs, it)} //BUG
     //PUT
     //router.put("/manager/devs/:devId/credits/:newCredits").handler{ managerVerticle.changeDevCredits(managerLogged!!, managers, devs, it)}
 
     /** DEV ENDPOINTS */
-
-    //GEdev
+    /*
+    //GET
     router.get("/login/dev").handler{ devVerticle.returnDevLogged(devLogged, it) }
     router.get("/dev/devs").handler { devVerticle.handleListDevs(devs, it) }
     //POST
@@ -61,10 +65,11 @@ class MainVerticle : AbstractVerticle () {
     router.post("/dev/project").handler { devVerticle.createProject(devLogged!!, it)  }
     //DELETE
     router.delete("/dev/projects/:projectId").handler { devVerticle.deleteProject(devLogged!!, it) }
+     */
 
     vertx.createHttpServer().requestHandler(router).listen(8080)
   }
-
+/*
   private fun setUpInitialDataDev() :DevUser {
     var dev = DevUser()
     dev.id = 0
@@ -88,7 +93,15 @@ class MainVerticle : AbstractVerticle () {
     project.id = 0
     manager.projects.add(project)
 
-    devs.add(JsonObject.mapFrom(manager))
+    var dev = DevUser()
+    dev.name = "devvvv"
+    dev.id = 0
+    dev.managerId = 0
+
+    manager.devs.add(dev)
+
+    devs.add(dev)
+    managers.add(JsonObject.mapFrom(manager))
 
     return manager
   }
@@ -133,5 +146,5 @@ class MainVerticle : AbstractVerticle () {
     devs.add(JsonObject.mapFrom(dev2))
   }
 
-
+ */
 }

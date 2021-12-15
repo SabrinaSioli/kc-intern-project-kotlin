@@ -6,10 +6,11 @@ import io.vertx.kotlin.core.json.get
 import model.ManagerUser
 import model.DevUser
 import model.Project
+import tc.intern.project.handler.ResponseUser
 
 class ManagerUserService : AbstractService() {
 
-	fun createUser(managers: JsonArray, jsonInput: JsonObject): ManagerUser? {
+	fun createUser(managers: ArrayList<ManagerUser>, jsonInput: JsonObject): ManagerUser {
 		var user = ManagerUser()
 
 		user.id = returnManagerId(managers)
@@ -17,41 +18,27 @@ class ManagerUserService : AbstractService() {
 		user.email = jsonInput["email"]
 		user.password = jsonInput["password"]
 
-		managers.add(JsonObject.mapFrom(user))
+		managers.add(user)
 
 		return user
 	}
 
-	fun returnManagerId(managers: JsonArray): Int {
-		var managerId: Int;
+	fun returnManagerId(managers: ArrayList<ManagerUser>): Int {
+		var managerId: Int = 0;
 
-		if (managers.isEmpty()) {
-			managerId = 0
-		} else {
-			var idMax: Int = managers.getJsonObject(0)["id"]
-			val sizeMinusOne = managers.size() - 1
-
-			for (i in 1 .. sizeMinusOne) {
-				val id: Int = managers.getJsonObject(i)["id"]
-				if (idMax < id) { idMax = id }
-			}
-
-			if(idMax == -1) {
-				managerId = 0
-			} else {
-				managerId = idMax+1
-			}
+		if (managers.isNotEmpty()) {
+			managerId = managers.maxOf { manager -> manager.id } + 1
 		}
 
-		return managerId;
+		return managerId
 	}
 
-	fun createDevUser(managerLogged: ManagerUser, devs: JsonArray, jsonDev: JsonObject) : DevUser {
+	fun createDevUser(managerLogged: ManagerUser, devs: ArrayList<DevUser>, jsonDev: JsonObject) : DevUser {
 		var devUser: DevUser = DevUser()
 
 		devUser.id = returnDevId(devs)
 		devUser.name = jsonDev["name"]
-		//devUser.manager = managerLogged
+		devUser.managerId = managerLogged.id
 		devUser.credits = jsonDev["credits"]
 		devUser.email = jsonDev["email"]
 
@@ -67,21 +54,32 @@ class ManagerUserService : AbstractService() {
 			devUser.projects.add(project)
 		}
 
-		devs.add(JsonObject.mapFrom(devUser))
+		devs.add(devUser)
 		managerLogged.devs.add(devUser)
 
 		return devUser
 	}
 
-	fun returnDevId(devs: JsonArray): Int {
-		var DevId: Int;
+	fun returnDevId(devs: ArrayList<DevUser>): Int {
+		/*
+		var DevId: Int = 0;
+
+		if (devs.isEmpty()) {
+			return DevId
+		} else {
+			DevId = devs.maxOf { it.id }
+		}
+
+		if (DevId == -1) {
+			return
+		}
 
 		if (devs.isEmpty()) {
 			DevId = 0
 		} else {
 			var idMax: Int = devs.getJsonObject(0)["id"]
 
-			for (i in 1 until devs.size() - 1) {
+			for (i in 1 until devs.size()) {
 				val id: Int = devs.getJsonObject(i)["id"]
 				if (idMax < id) { idMax = id }
 			}
@@ -94,293 +92,71 @@ class ManagerUserService : AbstractService() {
 		}
 
 		return DevId;
+
+		 */
+		return 0
 	}
 
-	fun changeDevCredits(manager: ManagerUser, managers: JsonArray, devs: JsonArray, devId: Int, credits: String) {
-		/*
-		if (devId == 0) {
-			manager.credits += credits
+	fun changeDevCredits(manager: ManagerUser, managers: JsonArray, devs: JsonArray, devId: Int, credits: String): Boolean {
+		val devFound: Boolean = findDevById(manager, managers, devs, devId)
+
+		return devFound
+	}
+
+	fun findDevById(managerLodded: ManagerUser, managers: JsonArray, devs: JsonArray, devId: Int) : Boolean {
+		var devFound: Boolean = false
+		if (managerLodded.devs.isEmpty() || devs.isEmpty || managers.isEmpty) {
+			return devFound
 		} else {
-			findDevById(manager, devId).credits += credits
 
-		}
-		 */
+			//devFound = managerLodded.devs!!.any { dev -> dev.id == devId }
+			//devFound = managers.find { manager -> manager.equals(managerLodded)} != null
 
-	}
-	
-	/*
-	fun createUser(managers: ArrayList<ManagerUser>) : ManagerUser? {
-		var user = ManagerUser()
-		var isNotUniq = true
-		var op = 0
-		var id: Int = 1
-		var name: String = ""
-		var email = ""
-		var password: String = "1234" // ask about this
+			//var size: Int = managers["devs"]
+			//for(i in 1 until managers["devs"])
 
-
-		println("Create - Manager")
-		print("Name: ")
-		name = readLine()!!.toString()
-
-		//Repeat while the email is not unique
-		while(isNotUniq) {
-			print("Email: ")
-			email = readLine()!!.toString()
-
-			isNotUniq = managers.any { it -> it.email == email }
-
-			if (isNotUniq) {
-				println("This email is already used!")
-				println("""
-				Do you want to try another one?
-				0 - yes
-				1 - No
-				""".trimIndent())
-				op = readLine()!!.toInt()
-
-				if (op == 1) isNotUniq = false
-			} else {
-				op = 1
-			}
-		}
-		/*
-		if (op == 1) {
-			print("Password: ")
-
-			try {
-				password = readLine()!!.toInt()
-
-				if (managers.isEmpty()) {
-					id = 0
-				} else {
-					id = managers.last().id + 1
-				}
-
-				user.id = id
-				user.name = name
-				user.email = email
-				user.password = password
-
-				managers.add(user)
-
-			} catch (e: NumberFormatException) {
-				println("Error! The password must be an integer. :/")
-				return null
-			}
-		}
-		 */
-		user.id = id
-		user.name = name
-		user.email = email
-		user.password = password
-
-		managers.add(user)
-
-		return user
-	}
-/*
-	fun createDev(manager : ManagerUser, devs: ArrayList<DevUser>) {
-		var CreateDev = 1
-
-		while (CreateDev == 1) {
-			println("Create - Developer")
-			var id: String = "1"
-			var name: String
-			var email: String = ""
-			var credits: String = "0"
-
-			print("Name: ")
-			name = readLine()!!.toString()
-
-			print("Credits: ")
-			credits = readLine()!!
-			credits = credits
-
-			var isNotUniq = true
-			var op = 0
-
-			while(isNotUniq) { //Repeat while the email is not unique
-				print("Email: ")
-				email = readLine()!!.toString()
-
-				isNotUniq = devs.any { it -> it.email == email }
-
-				if (isNotUniq) {
-					println("This email is already used!")
-					println("""
-					Do you want to try another one?
-					0 - yes
-					1 - No
-					""".trimIndent())
-					op = readLine()!!.toInt()
-
-					if (op == 1) isNotUniq = false
-				} else {
-					op = 2
-				}
-			}
 			/*
-			if (op == 2) {
+			devFound = managerLodded.devs.any { dev -> dev.id == devId }
+			var devF: DevUser = managerLodded.devs.find { dev -> dev.id  == devId }!!
+			var devFToJson: JsonObject? = JsonObject.mapFrom(devF)
+			devFound = managers.getJsonObject(0).equals(devFToJson)
+			*/
 
-				var dev = DevUser()
+			//var managerDevs: JsonObject = managers.getJsonObject(0)
 
-				if (devs.isEmpty()) {
-					id = 0
-				} else {
-					id = devs.last().id + 1
+			//var devId: Int = managerDevs.getJsonObject(0.toString())["id"]
+			/*
+			for (i in 0 until devs.size()) {
+				val id: Int = devs.getJsonObject(i)["id"]
+				if (id == devId) {
+					devFound = true
 				}
-
-				dev.id = id
-				dev.name = name
-				dev.email = email
-				dev.credits = credits
-				dev.manager = manager
-
-				manager.devs.add(dev)
-				devs.add(dev)
-
-				println("\nDevelop successfully created!")
-				dev.seeProfile()
-
 			}
+
 			 */
-			var dev = DevUser()
-			dev.id = id
-			dev.name = name
-			dev.email = email
-			dev.credits = credits
-			dev.manager = manager
-
-			manager.devs.add(dev)
-			devs.add(dev)
-
-			println("\nDevelop successfully created!")
-			dev.seeProfile()
-
-			println("""
-				Create another Developer?
-				1 - Yes
-				2 - No
-			""".trimIndent())
-			CreateDev = readLine()!!.toInt()
-		}
-	}
-
-	fun changeMyCredits(manager: ManagerUser) {
-		var credit : String = manager.credits
-		/*
-		println("You have ${manager.credits} credits")
-		print("Type the new value: ")
-
-		try{
-
-			do {
-				credit = readLine()!!.toInt()
-			} while (credit < 0)
-
-		} catch (e : NumberFormatException) {
-			println("Error! :/")
-		}
-		*/
-		manager.credits = credit
-	}
-
-	fun changeDevsCredits(manager: ManagerUser) {
-		/*
-		var continueDelete = true
-		while(continueDelete) {
-			println("Devs")
-			for (dev in manager.devs) {
-				println("""
-				id: ${dev.id} - name: ${dev.name} - creditos: ${dev.credits}
-			""".trimIndent())
-			}
-
-			print("Id of the Dev: ")
-			var id: Int = readLine()!!.toInt()
-
-			var foundDev = manager.devs.find { it.id == id }
-
-			if (foundDev != null) {
-				print("new value of credits: ")
-				var credits = readLine()!!.toInt()
-				foundDev.credits = credits
-				println("Changed with success!")
-			} else {
-				println("Id not found!")
-				println("""
-					You want:
-					0 - try again
-					1 - return
-				""".trimIndent())
-				var op = readLine()!!.toInt()
-				if(op == 1) continueDelete = false
-			}
-		}
-		 */
-	}
-
-	fun deleteDev(manager: ManagerUser, devs: ArrayList<DevUser>) {
-		/*
-		var notStop = true
-		while(notStop) {
-			println("Devs")
-			if (devs.isEmpty()) println("None")
-
-			for (dev in manager.devs) {
-				println("""
-				${dev.id} - ${dev.name} - ${dev.credits}
-			""".trimIndent())
-			}
-			println("")
-
-			var isDevId = false
-
-			while(!isDevId) { //repeats while id is not an existing developer id
-				print("Id of the Dev: ")
-				var devId: Int = readLine()!!.toInt()
-				isDevId = manager.devs.any { dev -> dev.id == devId }
-
-				if (isDevId) {
-					manager.devs.removeIf { dev -> dev.id == devId }
-					devs.removeIf { dev -> dev.id == devId }
-
-					println("Successfully removed!\n")
-					println("""
-					Do want delete another developer?
-					0 - yes
-					1 - No
-				""".trimIndent())
-					var op = readLine()!!.toInt()
-
-					if (op == 0) {
-						isDevId = true
-					}
-					if (op == 1) {
-						isDevId = true
-						notStop = false
-					}
-				} else {
-					println("Id not found.\n")
-					println("""
-					What do you want to do?
-					0 - try again
-					1 - return
-				""".trimIndent())
-					var op = readLine()!!.toInt()
-					if (op == 1) {
-						isDevId = true
-						notStop = false
-					}
-				}
-			}
 
 		}
-		 */
+		return devFound
 
 	}
- */
- */
-	 
+
+	fun returnJson(manager: ManagerUser) : JsonObject {
+		val newManager = ResponseUser(
+			id = manager.id,
+			name = manager.name,
+			credits = manager.credits
+		)
+
+		return JsonObject.mapFrom(newManager)
+	}
+
+	fun returnJson(managers: ArrayList<ManagerUser>) : JsonArray {
+		var newManagers: JsonArray = JsonArray()
+
+		managers.forEach{ manager ->
+			newManagers.add(returnJson(manager))
+		}
+
+		return newManagers
+	}
 }

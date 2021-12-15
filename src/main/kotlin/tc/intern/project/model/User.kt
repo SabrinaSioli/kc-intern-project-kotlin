@@ -8,6 +8,4 @@ open class User {
 	var email: String = "admin"
 	var password: String = "1234"
 
-
-	//should I create a construct here?
 }

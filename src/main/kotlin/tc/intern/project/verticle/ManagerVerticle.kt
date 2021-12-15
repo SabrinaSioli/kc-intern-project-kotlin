@@ -29,31 +29,29 @@ class ManagerVerticle {
 
     }
 
-    fun handleListManagers(managers: JsonArray, routingContext: RoutingContext) {
-        when(managers.isEmpty) {
+    fun handleListManagers(managers: ArrayList<ManagerUser>, routingContext: RoutingContext) {
+        when(managers.isEmpty()) {
             true -> routingContext.response().setStatusCode(204).putHeader("content-type", "application/json")
                 .end(Json.encodePrettily(ResponseHandler(204, "No managers saved", null)))
             false -> routingContext.response().setStatusCode(200).putHeader("content-type", "application/json")
-                .end(Json.encodePrettily(ResponseHandler(200, "Successful search", managers)))
+                .end(Json.encodePrettily(ResponseHandler(200, "Successful search", managerService.returnJson(managers))))
         }
 
     }
 
-    fun createManagerUser(managers: JsonArray, routingContext: RoutingContext): ManagerUser? {
-        var managerLogged: ManagerUser? = ManagerUser()
+    fun createManagerUser(managers: ArrayList<ManagerUser>, routingContext: RoutingContext): ManagerUser? {
 
-        managerLogged = managerService.createUser(managers, routingContext.bodyAsJson)
+        try {
+            var managerLogged: ManagerUser = managerService.createUser(managers, routingContext.bodyAsJson)
 
-        if (managerLogged != null) {
             routingContext.response().setStatusCode(201).putHeader("content-type", "application/json")
-                .end(Json.encodePrettily(ResponseHandler(201, "Your account was created", JsonObject.mapFrom(managerLogged))))
+                .end(Json.encodePrettily(ResponseHandler(201, "Your account was created", JsonObject.mapFrom(managerService.returnJson(managerLogged)))))
 
-        } else {
-            routingContext.response().setStatusCode(401)
-                .end(Json.encodePrettily(ResponseHandler(401, "Your account was not created", JsonObject.mapFrom(managerLogged))))
+            return managerLogged
+        } catch (e: IllegalArgumentException) {
+            return null
+            exceptionsResponseHandle.illegalArgumentException(routingContext, e)
         }
-
-        return managerLogged
     }
 
     fun createProject(managerLogged: ManagerUser, routingContext: RoutingContext){
@@ -61,7 +59,6 @@ class ManagerVerticle {
         val project: Project?  = managerService.createProject(managerLogged, routingContext.bodyAsJson)
 
         if (project != null) {
-            managerLogged.projects.add(project)
 
             routingContext.response().putHeader("content-type", "application/json")
                 .end(Json.encodePrettily(ResponseHandler(201, "Your project was created!", JsonObject.mapFrom(project))))
@@ -72,7 +69,7 @@ class ManagerVerticle {
 
     }
 
-    fun createDevUser(managerLogged: ManagerUser, devs: JsonArray, routingContext: RoutingContext) {
+    fun createDevUser(managerLogged: ManagerUser, devs: ArrayList<DevUser>, routingContext: RoutingContext) {
         try {
             var dev: DevUser? = DevUser()
 
@@ -84,15 +81,7 @@ class ManagerVerticle {
 
             } else {
                 routingContext.response().setStatusCode(401)
-                    .end(
-                        Json.encodePrettily(
-                            ResponseHandler(
-                                401,
-                                "It was not possible to create ",
-                                JsonObject.mapFrom(dev)
-                            )
-                        )
-                    )
+                    .end(Json.encodePrettily(ResponseHandler(401, "It was not possible to create ", JsonObject.mapFrom(dev))))
             }
         } catch (e: IllegalArgumentException) {
             exceptionsResponseHandle.illegalArgumentException(routingContext, e)
@@ -100,10 +89,16 @@ class ManagerVerticle {
     }
 
     fun changeDevCredits(managerLogged: ManagerUser, managers: JsonArray, devs: JsonArray, routingContext: RoutingContext) {
-
-        //managerService.changeDevCredits(managerLogged, managers, devs, routingContext.bodyAsJson["devId"], routingContext.bodyAsJson["newCredits"])
-        routingContext.response().setStatusCode(201).putHeader("content-type", "application/json")
-            .end(Json.encodePrettily(ResponseHandler(201, "Your account was created", JsonObject.mapFrom(managerLogged))))
+        var devId : Int = routingContext.request().getParam("devId").toInt()
+        var newCredits: String = routingContext.request().getParam("newCredits")
+        val devFound = managerService.changeDevCredits(managerLogged, managers, devs, devId, newCredits)
+        if (devFound) {
+            routingContext.response().setStatusCode(201).putHeader("content-type", "application/json")
+                .end(Json.encodePrettily(ResponseHandler(201, "successful change", JsonObject.mapFrom(managerLogged))))
+        } else {
+            routingContext.response().setStatusCode(201).putHeader("content-type", "application/json")
+                .end(Json.encodePrettily(ResponseHandler(400, "bad request", JsonObject.mapFrom(managerLogged))))
+        }
 
     }
 }

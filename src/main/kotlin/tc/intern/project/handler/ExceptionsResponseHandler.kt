@@ -13,8 +13,13 @@ class ExceptionsResponseHandler {
     }
 
     fun illegalArgumentException(routingContext: RoutingContext, e: IllegalArgumentException) {
-        routingContext.response().setStatusCode(400).putHeader("content-type", "application/json")
+        routingContext.response().setStatusCode(401).putHeader("content-type", "application/json")
             .end(JsonObject.mapFrom(ResponseHandler(400, e.message, null)).encodePrettily())
+    }
+
+    fun noSuchElementException(routingContext: RoutingContext, e: NoSuchElementException) {
+        routingContext.response().setStatusCode(403).putHeader("content-type", "application/json")
+            .end(JsonObject.mapFrom(ResponseHandler(403, e.message, null)).encodePrettily())
     }
 
 }

@@ -22,11 +22,12 @@ class DevUserService : AbstractService() {
     }
 
     fun returnDevId(devs: JsonArray): Int {
-        var DevId: Int;
+        var devId: Int;
 
         if (devs.isEmpty()) {
-            DevId = 0
+            devId = 0
         } else {
+
             var idMax: Int = devs.getJsonObject(0)["id"]
 
             for (i in 1 until devs.size()) {
@@ -35,12 +36,12 @@ class DevUserService : AbstractService() {
             }
 
             if(idMax == -1) {
-                DevId = 0
+                devId = 0
             } else {
-                DevId = idMax+1
+                devId = idMax+1
             }
         }
 
-        return DevId;
+        return devId;
     }
 }

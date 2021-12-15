@@ -58,7 +58,6 @@ class DevVerticle {
         val project: Project?  = devService.createProject(devLogged, routingContext.bodyAsJson)
 
         if (project != null) {
-            devLogged.projects.add(project)
 
             routingContext.response().putHeader("content-type", "application/json")
                 .end(Json.encodePrettily(ResponseHandler(201, "Your project was created!", JsonObject.mapFrom(project))))
@@ -81,13 +80,4 @@ class DevVerticle {
         }
     }
 
-
-
-
-
-/*
-fun sendError(statusCode: Int, response: HttpServerResponse) {
-    response.setStatusCode(statusCode).end()
-}
-*/
 }
