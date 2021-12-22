@@ -1,5 +1,5 @@
 # TC INTERN PROJECT
-Result of the targeted study
+Result of the targered study
 
 <i> The text below is incomplete, informations will be added later. </i>
 
