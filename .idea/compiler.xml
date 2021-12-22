@@ -7,11 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="starter" />
-        <module name="tc-intern-project" />
+        <module name="com-kc-intern-project" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="tc-intern-project" target="1.5" />
+      <module name="com-kc-intern-project" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
